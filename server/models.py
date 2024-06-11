@@ -29,8 +29,6 @@ class User(db.Model, SerializerMixin):
             raise ValueError("Name must be more than two characters")
         return name    
 
-
-
 class Equipment(db.Model, SerializerMixin):
     __tablename__='equipments'
 
@@ -42,14 +40,23 @@ class Equipment(db.Model, SerializerMixin):
     pictures = db.Column(db.String) 
     rent_price = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    category = db.Column(db.String)
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
     ##relationship
     rents= db.relationship('Rent', back_populates='equipment', cascade= 'all, delete-orphan')
     users = association_proxy('rents', 'user', creator = lambda user_obj: Rent(user = user_obj))
     def __repr__(self):
         return f'<Equipment {self.id}: {self.name}, {self.make}, {self.rent_price}>'
 
-class Review(db.Column, SerializerMixin):
+class Category(db.Model, SerializerMixin):
+    __tablename__='categories'
+ 
+    id = db.Column(db.Integer, primary_key=True)
+    category_name= db.Column(db.String, nullable=False)
+    
+    def __repr__(self):
+        return f'<Category {self.id}: {self.category_name}.>'
+
+class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
 
     id = db.Column(db.Integer, primary_key= True)

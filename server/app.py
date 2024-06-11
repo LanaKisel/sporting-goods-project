@@ -9,7 +9,7 @@ from flask_restful import Resource
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import User, Equipment, Review, Rent
+from models import User, Equipment, Review, Rent, Category
 from datetime import datetime
 # Views go here!
 
@@ -60,8 +60,8 @@ class Equipments(Resource):
                 make =data['make'],
                 pictures = data['pictures'],
                 rent_price = data['rent_price'],
-                category = data['category'],
-                user_id = data['user_id']
+                category_id = data['category'],
+                user_id = data['user_id'],
             )    
             db.session.add(new_equipment)
             db.session.commit()
@@ -100,6 +100,31 @@ class EquipmentById(Resource):
         return {'error': 'Equipment not found'}, 404    
 api.add_resource(EquipmentById, '/equipments/<int:id>') 
 
+class Categories(Resource):
+    def get(self):
+        category= [category.to_dict() for category in Category.query.all()]
+        return make_response(category, 200)
+    def post(self):
+        data= request.get_json()
+        try:
+            new_category=Category(
+                category_name= data['category_name']
+            )
+            db.session.add(new_category)
+            db.session.commit()
+            if new_category:
+                return make_response(new_category.to_dict(), 201)
+        except:
+            return {'error':'validation error'}, 400            
+api.add_resource(Categories, '/categories')   
+
+class CategoryByName(Resource):
+    def get(self, category_name):
+        category= Category.query.filter(Category.category_name== category_name).first()
+        if category:
+            return make_response(category.to_dict(), 200)
+        return {'error':'category not found'}, 404   
+api.add_resource(CategoryByName, '/categories/<category_name>')         
 class Reviews(Resource):
     def get(self):
         review = [review.to_dict() for review in Review.query.all()]
