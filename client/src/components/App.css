@@ -1,0 +1,11 @@
+.homepage_photo {
+    text-align: center;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    width: 50%;
+}
+.homepage_h2 {
+    text-align: center;
+}
