@@ -60,7 +60,7 @@ class Equipments(Resource):
                 make =data['make'],
                 pictures = data['pictures'],
                 rent_price = data['rent_price'],
-                category_id = data['category'],
+                category_id = data['category_id'],
                 user_id = data['user_id'],
             )    
             db.session.add(new_equipment)
@@ -124,7 +124,17 @@ class CategoryByName(Resource):
         if category:
             return make_response(category.to_dict(), 200)
         return {'error':'category not found'}, 404   
-api.add_resource(CategoryByName, '/categories/<category_name>')         
+api.add_resource(CategoryByName, '/categories/<category_name>')   
+
+class EquipmentByCategoryId(Resource):
+    def get(self, category_id):
+        category= Category.query.filter(Category.id== category_id).first()
+        if category is None:
+            return {'error': 'category not found'}, 404
+        equipment = [equipment.to_dict() for equipment in Equipment.query.filter(Equipment.category_id== category_id).all()]
+        return make_response(equipment, 200)   
+api.add_resource(EquipmentByCategoryId, '/equipments/category/<int:category_id>')               
+
 class Reviews(Resource):
     def get(self):
         review = [review.to_dict() for review in Review.query.all()]

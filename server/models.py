@@ -54,7 +54,7 @@ class Category(db.Model, SerializerMixin):
     category_name= db.Column(db.String, nullable=False)
     
     def __repr__(self):
-        return f'<Category {self.id}: {self.category_name}.>'
+        return f'<Category {self.id}: {self.category_name},.>'
 
 class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
