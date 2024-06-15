@@ -12,7 +12,6 @@ import {store} from './store'
 import { Auth0Provider } from '@auth0/auth0-react';
 //Auth0
 
-//Auth0
 
 const container = document.getElementById("root");
 const root = createRoot(container);

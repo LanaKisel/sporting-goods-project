@@ -3,14 +3,43 @@ import { EquipmentsContext, EquipmentsProvider } from "./Context";
 import { useHistory } from "react-router-dom"
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
+import { useSelector, useDispatch } from 'react-redux'
+import { setUser, setToken } from '../userSlice'
+import { useAuth0 } from "@auth0/auth0-react";
+
+
+
+
 const Home = () => {
+    const dispatch = useDispatch();
+    const token = useSelector((state) => state.user.value.token);
+
     const [categories, setCategories] = useState([])
     let history = useHistory();
+
     useEffect(() => {
         fetch('/categories')
             .then(r => r.json())
-            .then(data => setCategories(data))
+            .then(data => setCategories(data));
+
+       
+        
     }, [])
+
+    const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+   
+useEffect(() => {
+    getAccessTokenSilently().then((at) => { dispatch(setToken(at));});
+
+ setUser(isAuthenticated?user:undefined);
+ fetch('/users/me', {
+    headers: new Headers({ 'Authorization': 'Bearer '+ token })
+})
+.then(r=>r.json())
+.then(data=>console.log(data))
+}, [isAuthenticated])
+
+
    
     const category= categories.map(category=><Link key={category.id} to={`/categories/${category.category_name}`}><h2>{category.category_name}</h2></Link>)
     return (

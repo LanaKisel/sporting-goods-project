@@ -11,6 +11,7 @@ import { BrowserRouter as Router} from 'react-router-dom';
 // import { Router } from "react-router-dom";
 import Navigation from "./Navigation";
 import EquipmentByCategory from "./EquipmentByCategory";
+import EqRented from "./EqRented";
 
 function App() {
   return (
@@ -30,7 +31,9 @@ function App() {
           <Switch>
             <Route exact path='/equipments/:id'>{<Equipment/>}</Route>
           </Switch>
-          
+          <Switch>
+            <Route exact path='/rents/:id'>{<EqRented/>}</Route>
+          </Switch>          
         </div>
       </Router>
     </EquipmentsProvider>

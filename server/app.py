@@ -6,12 +6,16 @@
 from flask import request, make_response, jsonify
 from flask_restful import Resource
 
+from authlib.integrations.flask_oauth2 import ResourceProtector
+
 # Local imports
 from config import app, db, api
 # Add your model imports
 from models import User, Equipment, Review, Rent, Category
 from datetime import datetime
 # Views go here!
+
+require_auth = ResourceProtector()
 
 @app.route('/')
 def index():
@@ -27,7 +31,8 @@ class Users(Resource):
         if existing_user == None:
             try:
                 new_user = User(
-                    name = data['name']
+                    name = data['name'],
+                    email=data['email']
                 )
                 db.session.add(new_user)
                 db.session.commit()
@@ -46,6 +51,15 @@ class UserByName(Resource):
             return make_response(user.to_dict(), 200)
         return {'error':'User not found'}, 404
 api.add_resource(UserByName, '/users/<name>')
+
+class CurrentUser(Resource):
+    @require_auth(None)
+    def get(self):
+        user = User.query.filter(User.email == email).first()
+        if user:
+            return make_response(user.to_dict(), 200)
+        return {'error':'User not found'}, 404
+api.add_resource(CurrentUser, '/users/me')
 
 class Equipments(Resource):
     def get(self):
@@ -203,7 +217,34 @@ class Rents(Resource):
                 return make_response(new_rent.to_dict(), 201)
         except:
             return {'error': 'validation error'}  
-api.add_resource(Rents, '/rents')        
+api.add_resource(Rents, '/rents')      
+class RentById(Resource):
+    def get(self, id):
+        rent = Rent.query.filter(Rent.id==id).first()
+        if rent:
+            return make_response(rent.to_dict(), 200)
+        return {'error':'validation error'}
+    def patch(self, id):
+        data = request.get_json()
+        rent = Rent.query.filter(Rent.id==id).first()
+        if rent:
+            for attr in data:
+                try:
+                    setattr(rent, attr, data[attr])  
+                except:
+                    return {'errors': ['validation errors']}
+            db.session.add(rent)
+            db.session.commit()
+            return make_response(rent.to_dict(), 202)
+        return {'error': 'Review not found'}, 404
+    def delete(self, id):
+        rent = Rent.query.filter(Rent.id==id).first()
+        if rent:
+            db.session.delete(rent)
+            db.session.commit()
+            return {}, 204
+        return {'error': 'Review not found'}, 404 
+api.add_resource(RentById, '/rents/<int:id>')              
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

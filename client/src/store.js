@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from './counterSlice'
+import userReducer from './userSlice'
 
 let preloadedState
 const categories= ['tennis', 'surf boards', 'soccer', 'bikes', 'paddle boards', 'snowboards', 'volleyball', 'kayaks', 'backpacking', 'football']
@@ -10,7 +10,7 @@ preloadedState={
 
 export const store = configureStore({
     reducer: {
-        counter: counterReducer,
+        user: userReducer,
     }, 
     preloadedState: preloadedState
   })

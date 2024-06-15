@@ -72,7 +72,6 @@ def private():
     )
     return jsonify(message=response)
 
-
 @app.route("/private-scoped")
 @require_auth("read:messages")
 def private_scoped():
