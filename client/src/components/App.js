@@ -12,7 +12,9 @@ import { BrowserRouter as Router} from 'react-router-dom';
 import Navigation from "./Navigation";
 import EquipmentByCategory from "./EquipmentByCategory";
 import EqRented from "./EqRented";
-
+import RentEquipment from "./RentEquipment";
+import UpdateRent from "./UpdateRent";
+import CancelRent from "./CancelRent";
 function App() {
   return (
     <EquipmentsProvider>
@@ -32,8 +34,11 @@ function App() {
             <Route exact path='/equipments/:id'>{<Equipment/>}</Route>
           </Switch>
           <Switch>
-            <Route exact path='/rents/:id'>{<EqRented/>}</Route>
-          </Switch>          
+            <Route exact path='/rentals/:id'>{<EqRented/>}</Route>
+          </Switch>   
+          <Switch>
+            <Route exact path='/rentals'>{<RentEquipment/>}</Route>
+          </Switch>       
         </div>
       </Router>
     </EquipmentsProvider>

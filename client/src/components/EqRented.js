@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { format } from 'date-fns'
 import Modal from 'react-modal'
+import UpdateRent from './UpdateRent';
+import CancelRent from './CancelRent';
 Modal.setAppElement('#root');
 const customStyles = {
   content: {
@@ -19,7 +21,7 @@ const EqRented = () => {
     let { id } = useParams()
     const [rent, setRent] = useState([])
     useEffect(()=>{
-        fetch(`/rents/${id}`)
+        fetch(`/rentals/${id}`)
         .then(r=>r.json())
         .then(data =>(
             setRent(data)
@@ -47,7 +49,7 @@ const EqRented = () => {
     <div>
         <h2>Here're details of the rent:</h2>
         <h3>Location: {rent.location}</h3>
-        <h3>Date and Time: {rent.date_time}</h3>
+        <h3>Dates: {rent.start_date? format(new Date((rent.start_date + 'Z').replace(/-/g, '/')), 'MMMM do yyyy'): ""} - {rent.start_date? format(new Date((rent.end_date + 'Z').replace(/-/g, '/')), 'MMMM do yyyy'): ""}</h3>
         <br/>
         <button type = 'button' onClick={openUpdateModal}>Update rent</button>
         <br/>
@@ -56,14 +58,14 @@ const EqRented = () => {
         isOpen={updateModalIsOpen}
         style={customStyles}
         contentLabel="Update rent Modal">
-        {/* <update rent goes here />     */}
+        {<UpdateRent rent_id={rent.id}/>}
         </Modal>
         <Modal
         isOpen={cancelModalIsOpen}
         onRequestClose={closeCancelModal}
         style={customStyles}
         contentLabel="Cancel photoshoot Modal">
-        {/* <CancelPhotoshoot photoshoot_id={photoshoot.id} /> */}
+        {<CancelRent rent_id={rent.id}/>}
       </Modal>      
     </div>
   )

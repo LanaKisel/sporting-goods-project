@@ -11,16 +11,16 @@ from config import db
 class User(db.Model, SerializerMixin):
     __tablename__='users'
 
-    serialize_rules = ('-rents.user',)
+    serialize_rules = ('-rentals.user',)
 
     id = db.Column(db.Integer, primary_key=True )
     name= db.Column(db.String, unique=True, nullable=False)
-    email = db.Column(db.String, unique=True)
+    #email = db.Column(db.String, unique=True)
     # is_owner=db.Column(db.Boolean)
 
     #relationship
-    rents= db.relationship('Rent', back_populates = 'user', cascade = 'all, delete-orphan')
-    equipments = association_proxy('rents', 'equipment', creator = lambda equipment_obj: Rent(equipment = equipment_obj) )
+    rentals= db.relationship('Rental', back_populates = 'user', cascade = 'all, delete-orphan')
+    equipments = association_proxy('rentals', 'equipment', creator = lambda equipment_obj: Rental(equipment = equipment_obj) )
     def __repr__(self):
         return f'<User {self.id}: {self.name}, {self.is_owner}>'
     
@@ -33,7 +33,7 @@ class User(db.Model, SerializerMixin):
 class Equipment(db.Model, SerializerMixin):
     __tablename__='equipments'
 
-    serialize_rules = ('-rents. equipment',)
+    serialize_rules = ('-rentals. equipment',)
 
     id = db.Column(db.Integer, primary_key=True)
     name= db.Column(db.String)
@@ -43,8 +43,8 @@ class Equipment(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
     ##relationship
-    rents= db.relationship('Rent', back_populates='equipment', cascade= 'all, delete-orphan')
-    users = association_proxy('rents', 'user', creator = lambda user_obj: Rent(user = user_obj))
+    rentals= db.relationship('Rental', back_populates='equipment', cascade= 'all, delete-orphan')
+    users = association_proxy('rentals', 'user', creator = lambda user_obj: Rentals(user = user_obj))
     def __repr__(self):
         return f'<Equipment {self.id}: {self.name}, {self.make}, {self.rent_price}>'
 
@@ -69,20 +69,21 @@ class Review(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Review {self.id}: {self.text}>'
 
-class Rent(db.Model, SerializerMixin):
-    __tablename__='rents'
+class Rental(db.Model, SerializerMixin):
+    __tablename__='rentals'
 
-    serialize_rules=('-user.rents', '-equipment.rents',)
+    serialize_rules=('-user.rentals', '-equipment.rentals',)
 
     id = db.Column(db.Integer, primary_key= True)
     location = db.Column(db.String)
-    date_time = db.Column(db.DateTime)
+    start_date = db.Column(db.Date)
+    end_date = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     equipment_id = db.Column(db.Integer, db.ForeignKey('equipments.id'))
 
     ##relationships
-    user = db.relationship('User', back_populates='rents')
-    equipment = db.relationship('Equipment', back_populates='rents')
+    user = db.relationship('User', back_populates='rentals')
+    equipment = db.relationship('Equipment', back_populates='rentals')
 
     def __repr__(self):
-        return f'<Rent {self.id}: {self.location}, {self.date_time}>'
+        return f'<Rental {self.id}: {self.location}, {self.start_date}, {self.end_date}>'

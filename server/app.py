@@ -11,7 +11,7 @@ from authlib.integrations.flask_oauth2 import ResourceProtector
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import User, Equipment, Review, Rent, Category
+from models import User, Equipment, Review, Rental, Category
 from datetime import datetime
 # Views go here!
 
@@ -31,8 +31,8 @@ class Users(Resource):
         if existing_user == None:
             try:
                 new_user = User(
-                    name = data['name'],
-                    email=data['email']
+                    name = data['name']
+                    # email=data['email']
                 )
                 db.session.add(new_user)
                 db.session.commit()
@@ -52,14 +52,14 @@ class UserByName(Resource):
         return {'error':'User not found'}, 404
 api.add_resource(UserByName, '/users/<name>')
 
-class CurrentUser(Resource):
-    @require_auth(None)
-    def get(self):
-        user = User.query.filter(User.email == email).first()
-        if user:
-            return make_response(user.to_dict(), 200)
-        return {'error':'User not found'}, 404
-api.add_resource(CurrentUser, '/users/me')
+# class CurrentUser(Resource):
+#     @require_auth(None)
+#     def get(self):
+#         user = User.query.filter(User.email == email).first()
+#         if user:
+#             return make_response(user.to_dict(), 200)
+#         return {'error':'User not found'}, 404
+# api.add_resource(CurrentUser, '/users/me')
 
 class Equipments(Resource):
     def get(self):
@@ -198,53 +198,59 @@ class ReviewById(Resource):
 
 api.add_resource(ReviewById, '/reviews/<int:id>')            
 
-class Rents(Resource):
+class Rentals(Resource):
     def get(self):
-        rent = [rent.to_dict() for rent in Rent.query.all()]
-        return make_response(rent, 200)
+        rental = [rental.to_dict() for rental in Rental.query.all()]
+        return make_response(rental, 200)
     def post(self):
         data = request.get_json()
-        try:
-            new_rent = Rent(
-                user_id = data['user_id'],
-                equipment_id = data['equipment_id'],
-                location = data['location'],
-                date_time = data ['date_time']
-            )
-            db.session.add(new_rent)
-            db.session.commit()
-            if new_rent:
-                return make_response(new_rent.to_dict(), 201)
-        except:
-            return {'error': 'validation error'}  
-api.add_resource(Rents, '/rents')      
-class RentById(Resource):
+        # try:
+        new_rental = Rental(
+            user_id = data['user_id'],
+            equipment_id = data['equipment_id'],
+            location = data['location'],
+            # start_date=data['date'],
+            # end_date=data['date']
+            start_date = datetime.strptime(data['start_date'], '%Y-%m-%d'),
+            end_date = datetime.strptime(data['end_date'], '%Y-%m-%d')
+        )
+        db.session.add(new_rental)
+        db.session.commit()
+        if new_rental:
+            return make_response(new_rental.to_dict(), 201)
+        # except:
+        return {'error': 'validation error'}  
+api.add_resource(Rentals, '/rentals')      
+class RentalById(Resource):
     def get(self, id):
-        rent = Rent.query.filter(Rent.id==id).first()
-        if rent:
-            return make_response(rent.to_dict(), 200)
+        rental = Rental.query.filter(Rental.id==id).first()
+        if rental:
+            return make_response(rental.to_dict(), 200)
         return {'error':'validation error'}
     def patch(self, id):
         data = request.get_json()
-        rent = Rent.query.filter(Rent.id==id).first()
-        if rent:
+        rental = Rental.query.filter(Rental.id==id).first()
+        if rental:
             for attr in data:
                 try:
-                    setattr(rent, attr, data[attr])  
+                    #setattr(rental, attr, data[attr])
+                    if attr == 'start_date' or attr == 'end_date':
+                        data[attr]=datetime.strptime(data[attr], '%Y-%m-%d')
+                    setattr(rental, attr, data[attr])  
                 except:
                     return {'errors': ['validation errors']}
-            db.session.add(rent)
+            db.session.add(rental)
             db.session.commit()
-            return make_response(rent.to_dict(), 202)
-        return {'error': 'Review not found'}, 404
+            return make_response(rental.to_dict(), 202)
+        return {'error': 'Rental not found'}, 404
     def delete(self, id):
-        rent = Rent.query.filter(Rent.id==id).first()
-        if rent:
-            db.session.delete(rent)
+        rental = Rental.query.filter(Rental.id==id).first()
+        if rental:
+            db.session.delete(rental)
             db.session.commit()
             return {}, 204
         return {'error': 'Review not found'}, 404 
-api.add_resource(RentById, '/rents/<int:id>')              
+api.add_resource(RentalById, '/rentals/<int:id>')              
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

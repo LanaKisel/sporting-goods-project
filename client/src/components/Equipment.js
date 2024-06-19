@@ -46,6 +46,14 @@ const Equipment = () => {
     return (
         <div>
             <h2>{equipment.name}</h2>
+            {/* {equipment.pictures.split('|').map((p, i) => {
+                    if (p.startsWith('http')) {
+                        return <img key={'equipment_pic_' + i} className='equipment_pic' src={p}></img>
+                    } else {
+                        return <img key={'equipment_pic_' + i} className='portfolio_pic' src={`data:image/jpeg;base64,${p}`}></img>
+
+                    }
+                })}         */}
             <img className="equipment_pic" src={equipment.pictures}></img>
             <h2>Make: {equipment.make}</h2>
             <h2>Rent price : {equipment.rent_price}</h2>
