@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import Modal from 'react-modal'
 import RentEquipment from './RentEquipment';
 import { useSelector, useDispatch } from 'react-redux'
+import Review from './Review';
 const customStyles = {
     content: {
         overflow: 'visible',
@@ -18,6 +19,7 @@ Modal.setAppElement('#root');
 
 const Equipment = () => {
     const [equipment, setEquipment] = useState('')
+    const [reviews, setReviews] = useState([])
     let { id } = useParams()
 
     const token = useSelector((state) => state.user.value.token);
@@ -29,6 +31,14 @@ const Equipment = () => {
             setEquipment(data)
         ))
     }, [])
+    
+    useEffect(()=>{
+        fetch(`/equipments/${id}/reviews`)
+        .then(r=>r.json())
+        .then(data=>setReviews(data))
+    },[])
+    
+    const review=reviews.map((r)=>(<Review review={r}/>))
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -57,6 +67,7 @@ const Equipment = () => {
             <img className="equipment_pic" src={equipment.pictures}></img>
             <h2>Make: {equipment.make}</h2>
             <h2>Rent price : {equipment.rent_price}</h2>
+            {review}            
             <button onClick={openModal}>Click to rent</button>
             <Modal
                 isOpen={modalIsOpen}

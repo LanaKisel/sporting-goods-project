@@ -21,6 +21,7 @@ class User(db.Model, SerializerMixin):
     #relationship
     rentals= db.relationship('Rental', back_populates = 'user', cascade = 'all, delete-orphan')
     equipments = association_proxy('rentals', 'equipment', creator = lambda equipment_obj: Rental(equipment = equipment_obj) )
+    
     def __repr__(self):
         return f'<User {self.id}: {self.name}, {self.is_owner}>'
     
@@ -33,7 +34,7 @@ class User(db.Model, SerializerMixin):
 class Equipment(db.Model, SerializerMixin):
     __tablename__='equipments'
 
-    serialize_rules = ('-rentals. equipment',)
+    serialize_rules = ('-rentals.equipment',)
 
     id = db.Column(db.Integer, primary_key=True)
     name= db.Column(db.String)
@@ -45,6 +46,7 @@ class Equipment(db.Model, SerializerMixin):
     ##relationship
     rentals= db.relationship('Rental', back_populates='equipment', cascade= 'all, delete-orphan')
     users = association_proxy('rentals', 'user', creator = lambda user_obj: Rentals(user = user_obj))
+    reviews = db.relationship('Review', cascade = 'all, delete-orphan')
     def __repr__(self):
         return f'<Equipment {self.id}: {self.name}, {self.make}, {self.rent_price}>'
 
@@ -59,13 +61,13 @@ class Category(db.Model, SerializerMixin):
 
 class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
-
+    serialize_rules=('-user.reviews', '-user.email', '-user.rentals')
     id = db.Column(db.Integer, primary_key= True)
     text = db.Column(db.String, nullable=False)
     photos = db.Column(db.String, nullable = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable= False)
     equipment_id= db.Column(db.Integer, db.ForeignKey('equipments.id'))
-
+    user = db.relationship('User')
     def __repr__(self):
         return f'<Review {self.id}: {self.text}>'
 

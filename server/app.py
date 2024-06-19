@@ -158,7 +158,7 @@ class Reviews(Resource):
         try:
             new_review = Review(
                 text =data['text'],
-                photos = data['photos'],
+                photos = data.get('photos', None),
                 user_id = data['user_id'],
                 equipment_id = data['equipment_id']
             )
@@ -196,7 +196,16 @@ class ReviewById(Resource):
             return {}, 204
         return {'error': 'Review not found'}, 404
 
-api.add_resource(ReviewById, '/reviews/<int:id>')            
+api.add_resource(ReviewById, '/reviews/<int:id>')         
+
+class ReviewByEquipmentId(Resource):
+    def get(self, equipment_id):
+        equipment= Equipment.query.filter(Equipment.id == equipment_id).first()
+        if equipment:
+            reviews = [review.to_dict() for review in equipment.reviews]
+            return make_response(reviews, 200)
+        return {'error':'Equipment not found'}, 404
+api.add_resource(ReviewByEquipmentId, '/equipments/<int:equipment_id>/reviews')         
 
 class Rentals(Resource):
     def get(self):
@@ -226,7 +235,7 @@ class RentalById(Resource):
         rental = Rental.query.filter(Rental.id==id).first()
         if rental:
             return make_response(rental.to_dict(), 200)
-        return {'error':'validation error'}
+        return {'error':'validation error'}, 400
     def patch(self, id):
         data = request.get_json()
         rental = Rental.query.filter(Rental.id==id).first()
