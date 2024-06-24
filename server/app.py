@@ -6,16 +6,30 @@
 from flask import request, make_response, jsonify
 from flask_restful import Resource
 
+from dotenv import load_dotenv, find_dotenv
+
 from authlib.integrations.flask_oauth2 import ResourceProtector
 
 # Local imports
 from config import app, db, api
+
+#Auth0
+from validator import Auth0JWTBearerTokenValidator
+#Auth0
+
 # Add your model imports
 from models import User, Equipment, Review, Rental, Category
 from datetime import datetime
 # Views go here!
 
+#Auth0
 require_auth = ResourceProtector()
+validator = Auth0JWTBearerTokenValidator(
+    "dev-pq7dg4vajftv7igc.us.auth0.com",
+    "sporting-goods-python-flask"
+)
+require_auth.register_token_validator(validator)
+#Auth0
 
 @app.route('/')
 def index():
@@ -51,15 +65,16 @@ class UserByName(Resource):
             return make_response(user.to_dict(), 200)
         return {'error':'User not found'}, 404
 api.add_resource(UserByName, '/users/<name>')
-
-# class CurrentUser(Resource):
-#     @require_auth(None)
-#     def get(self):
-#         user = User.query.filter(User.email == email).first()
-#         if user:
-#             return make_response(user.to_dict(), 200)
-#         return {'error':'User not found'}, 404
-# api.add_resource(CurrentUser, '/users/me')
+# class BookingsByUser()
+class CurrentUser(Resource):
+    @require_auth(None)
+    def get(self):
+        print(request)
+        user = User.query.filter(User.email == email).first()
+        if user:
+            return make_response(user.to_dict(), 200)
+        return {'error':'User not found'}, 404
+api.add_resource(CurrentUser, '/users/me')
 
 class Equipments(Resource):
     def get(self):
@@ -71,7 +86,6 @@ class Equipments(Resource):
         try:
             new_equipment = Equipment(
                 name = data['name'],
-                make =data['make'],
                 pictures = data['pictures'],
                 rent_price = data['rent_price'],
                 category_id = data['category_id'],

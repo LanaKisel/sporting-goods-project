@@ -38,7 +38,6 @@ class Equipment(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name= db.Column(db.String)
-    make= db.Column(db.String, nullable=True)
     pictures = db.Column(db.String) 
     rent_price = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
