@@ -2,6 +2,9 @@ import React, { useContext, useState, useEffect } from 'react'
 import { EquipmentsContext, EquipmentsProvider } from "./Context";
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+
+import { useSelector, useDispatch } from 'react-redux'
+
 const EquipmentByCategory = () => {
     const [displayedCategory, setDisplayedCategory] = useState("")
     const [categoryId, setCategoryId] = useState(-1)
@@ -27,6 +30,13 @@ const EquipmentByCategory = () => {
         }
 
     }, [categoryId])
+
+    const token = useSelector((state) => state.user.value.token);
+    useEffect(() => {
+        if (token !== undefined) {
+            console.log('EquipmentByCategory.js: token', token)
+        }
+    }, [token])
 
     const equipment = equipments.map(e => (
         <div key={e.id}>

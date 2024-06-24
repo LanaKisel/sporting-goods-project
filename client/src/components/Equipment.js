@@ -4,6 +4,8 @@ import Modal from 'react-modal'
 import RentEquipment from './RentEquipment';
 import { useSelector, useDispatch } from 'react-redux'
 import Review from './Review';
+import { Button } from 'antd';
+import {gray} from '@ant-design/colors';
 const customStyles = {
     content: {
         overflow: 'visible',
@@ -38,7 +40,7 @@ const Equipment = () => {
         .then(data=>setReviews(data))
     },[])
     
-    const review=reviews.map((r)=>(<Review review={r}/>))
+    const review=reviews.map((r)=>(<Review key={r.id} review={r}/>))
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -64,11 +66,11 @@ const Equipment = () => {
 
                     }
                 })}         */}
-            <img className="equipment_pic" src={equipment.pictures}></img>
-            <h2>Make: {equipment.make}</h2>
+            <img className="equipment_pic" src={equipment.pictures}></img> 
             <h2>Rent price : {equipment.rent_price}</h2>
-            {review}            
-            <button onClick={openModal}>Click to rent</button>
+            {review}
+            <Button type='primary' onClick={openModal}>Click to rent</Button>            
+            {/* <button onClick={openModal}>Click to rent</button> */}
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}

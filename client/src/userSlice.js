@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  value: {user: undefined, token:undefined},
+  value: { user: undefined, token: undefined },
 }
 
 export const userSlice = createSlice({
@@ -15,8 +15,17 @@ export const userSlice = createSlice({
       // immutable state based off those changes
       state.value.user = user
     },
-    setToken:(state, token) => {
+    setToken: (state, token) => {
       state.value.token = token.payload;
+      fetch('/users/me', {
+        headers: new Headers({
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+          'authorization': 'Bearer ' + token.payload
+        })
+      })
+        .then(r => r.json())
+        .then(data => console.log(data))
     }
   },
 })

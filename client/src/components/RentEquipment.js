@@ -72,7 +72,6 @@ const RentEquipment = ({ equipment_id }) => {
                 startDate={formik.values.start_date}
                 endDate={formik.values.end_date}
                 selectsRange
-                inline
             />
             <input type="submit"></input>
         </form>)

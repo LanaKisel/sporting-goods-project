@@ -22,7 +22,8 @@ root.render(
         domain="dev-pq7dg4vajftv7igc.us.auth0.com"
         clientId="ViYR4q53qmm1RAu1jviv1LdnESbsMuKR"
         authorizationParams={{
-            redirect_uri: window.location.origin
+            redirect_uri: window.location.origin,
+            audience: "sporting-goods-python-flask"
         }}
     >
         <Provider store={store}>

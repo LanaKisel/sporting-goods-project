@@ -27,8 +27,7 @@ const CancelRent = ({rent_id}) => {
     <div>
         <h1>Cancel this photoshoot?</h1>
             <h3 className='cancelRental'>Location: {rent.location}</h3>
-            <h3 className='cancelRental'>Time: {rent.start_date_time}</h3>
-            <h3 className='cancelRental'>Time: {rent.end_date_time}</h3>
+            <h3 className='cancelRental'>Date: {rent.start_date} - {rent.end_date}</h3>
             <button className="cancel" type='button' onClick={handleDelete}>Cancel</button>      
     </div>
   )

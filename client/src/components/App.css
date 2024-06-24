@@ -1,18 +1,39 @@
 body {
-    background-color: #d7dedf;
+    background-color: #ffffff;
   }
 
 .homepage_photo {
-    text-align: center;
+    /* text-align: center;
     display: block;
     justify-content: center;
     align-items: center;
     margin: auto;
-    width: 50%;
+    width: 70%; */
+
+    display: grid;
+    grid-template-columns: 50px 1fr 50px; 
+    height: 100%;
+    width: 100%;
+
+
 }
 .homepage_h2 {
-    text-align: center
+    text-align: center;
+    font-size: 5ch;
+    font-family: New Century Schoolbook, TeX Gyre Schola, serif;     
 }
+.homepage_h3 {
+    text-align: center;
+    color: rgb(82, 82, 82);
+    font-family: Georgia, serif ;
+}
+.cat_h3 {
+    text-align: left;
+    font-family: Georgia, serif ;
+    font-size: 3ch;
+
+}
+
 .equipment_pic {
     display: block;
     justify-content: center;

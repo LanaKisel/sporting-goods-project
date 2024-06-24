@@ -4,16 +4,8 @@ import { useHistory } from "react-router-dom"
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { setUser, setToken } from '../userSlice'
-import { useAuth0 } from "@auth0/auth0-react";
-
-
-
 
 const Home = () => {
-    const dispatch = useDispatch();
-    const token = useSelector((state) => state.user.value.token);
-
     const [categories, setCategories] = useState([])
     let history = useHistory();
 
@@ -21,33 +13,18 @@ const Home = () => {
         fetch('/categories')
             .then(r => r.json())
             .then(data => setCategories(data));
-
-       
-        
     }, [])
 
-    const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-   
-useEffect(() => {
-    getAccessTokenSilently().then((at) => { dispatch(setToken(at));});
+    const token = useSelector((state) => state.user.value.token);
+    console.log('Home.js: token', token)
 
- setUser(isAuthenticated?user:undefined);
- fetch('/users/me', {
-    headers: new Headers({ 'Authorization': 'Bearer '+ token })
-})
-.then(r=>r.json())
-.then(data=>console.log(data))
-}, [isAuthenticated])
-
-
-   
     const category= categories.map(category=><Link key={category.id} to={`/categories/${category.category_name}`}><h2>{category.category_name}</h2></Link>)
     return (
-        <div>
-            <img className="homepage_photo" src={"https://media.istockphoto.com/id/949190756/photo/various-sport-equipments-on-grass.jpg?s=1024x1024&w=is&k=20&c=sMZL6tZpKAZihvQMPn5YnJaTMGh5bhrxsNJ_rJA0bWs="} alt={"Sport equipment"} />
-            <h2 className='homepage_h2'>Ready for your next adventure?</h2>
-            <h2 className='homepage_h2'>Check out sport equipment that's available to rent</h2>
-            <h3>Categories:</h3>
+        <div>            
+            <img className="homepage_photo" src={"https://img.freepik.com/free-photo/sports-tools_53876-138077.jpg?w=900&t=st=1719098303~exp=1719098903~hmac=5a6af19bfcc72113264d23e928921278b00ef10189549f728ac13f581b7a2b33"} alt={"Sport equipment"} />
+            <h2 className='homepage_h2'>Ready to have some fun?</h2>
+            <h3 className='homepage_h3'>Check out sport equipment that's available to rent</h3>
+            <h3 className='cat_h3'>Categories:</h3>
             {category}
             <h2 className='homepage_h2'>Available equipment near you:</h2>
         </div>
