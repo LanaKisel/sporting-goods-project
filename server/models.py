@@ -14,8 +14,9 @@ class User(db.Model, SerializerMixin):
     serialize_rules = ('-rentals.user',)
 
     id = db.Column(db.Integer, primary_key=True )
-    name= db.Column(db.String, unique=True, nullable=False)
-    #email = db.Column(db.String, unique=True)
+    sub = db.Column(db.String, unique=True, nullable=False)
+    email = db.Column(db.String, nullable=False)
+    name= db.Column(db.String, nullable=False)
     # is_owner=db.Column(db.Boolean)
 
     #relationship

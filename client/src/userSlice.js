@@ -13,19 +13,10 @@ export const userSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.value.user = user
+      state.value.user = user.payload;
     },
     setToken: (state, token) => {
       state.value.token = token.payload;
-      fetch('/users/me', {
-        headers: new Headers({
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json',
-          'authorization': 'Bearer ' + token.payload
-        })
-      })
-        .then(r => r.json())
-        .then(data => console.log(data))
     }
   },
 })

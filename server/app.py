@@ -8,7 +8,8 @@ from flask_restful import Resource
 
 from dotenv import load_dotenv, find_dotenv
 
-from authlib.integrations.flask_oauth2 import ResourceProtector
+from authlib.integrations.flask_oauth2 import ResourceProtector, current_token
+from auth0.authentication import Users
 
 # Local imports
 from config import app, db, api
@@ -29,6 +30,10 @@ validator = Auth0JWTBearerTokenValidator(
     "sporting-goods-python-flask"
 )
 require_auth.register_token_validator(validator)
+#Auth0
+
+#Auth0 - get user profile
+auth0_users = Users("dev-pq7dg4vajftv7igc.us.auth0.com")
 #Auth0
 
 @app.route('/')
@@ -69,11 +74,23 @@ api.add_resource(UserByName, '/users/<name>')
 class CurrentUser(Resource):
     @require_auth(None)
     def get(self):
-        print(request)
-        user = User.query.filter(User.email == email).first()
-        if user:
-            return make_response(user.to_dict(), 200)
-        return {'error':'User not found'}, 404
+        auth_header = request.headers.get('Authorization')
+        bearer_token = auth_header.split()[1]
+        auth0_userinfo = auth0_users.userinfo(bearer_token)
+
+        user = User.query.filter(User.sub == current_token.sub).first()
+        
+        if user == None:
+            new_user = User(
+                    sub = auth0_userinfo['sub'],
+                    email = auth0_userinfo['email'],
+                    name = auth0_userinfo['nickname']
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            user = User.query.filter(User.sub == current_token.sub).first()
+
+        return make_response(user.to_dict(), 200)
 api.add_resource(CurrentUser, '/users/me')
 
 class Equipments(Resource):

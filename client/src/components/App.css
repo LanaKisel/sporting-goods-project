@@ -1,7 +1,9 @@
 body {
     background-color: #ffffff;
   }
-
+.header_h1 {
+    text-align: left;
+}
 .homepage_photo {
     /* text-align: center;
     display: block;
@@ -28,7 +30,7 @@ body {
     font-family: Georgia, serif ;
 }
 .cat_h3 {
-    text-align: left;
+    text-align: center;
     font-family: Georgia, serif ;
     font-size: 3ch;
 
@@ -43,4 +45,10 @@ body {
     margin-top: 30px;
     margin-right: 20px;
     margin-left: 20px;
+}
+.equipment {
+    display: block;
+    justify-content: center;
+    margin: auto;
+    width: 50%;
 }

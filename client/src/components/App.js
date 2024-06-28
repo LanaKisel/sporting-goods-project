@@ -22,36 +22,42 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { ConfigProvider } from 'antd';
 import { gray } from '@ant-design/colors';
 
+import Header from "./Header";
 
 function App() {
   const dispatch = useDispatch();
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
 
   const token = useSelector((state) => state.user.value.token);
+  const appUser = useSelector((state) => state.user.value.user);
 
   useEffect(() => {
-    console.log("App.js: user", user);
-    console.log("App.js: isAuthenticated",  isAuthenticated)
-    console.log("App.js: isLoading", isLoading)
-    console.log("App.js: token", token)
-
     if (isAuthenticated) { 
-      getAccessTokenSilently().then((at) => { dispatch(setToken(at)); });
+      getAccessTokenSilently().then((at) => { 
+        dispatch(setToken(at));
+        fetch('/users/me', {
+          headers: new Headers({
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'authorization': 'Bearer ' + at
+          })
+        })
+          .then(r => r.json())
+          .then(data => {
+            dispatch(setUser(data))
+          })
+      });
     }
-
-    //setUser(isAuthenticated?user:undefined);
   }, [isAuthenticated, token])
 
 
   return (
     <ConfigProvider theme={{ token: {colorPrimary: gray.primary,}, }}>
     <EquipmentsProvider>
-      <Router>
-        <Navigation />
+      <Router>   
+        <Navigation/>  
         <div>
-          <LoginButton />
-          <LogoutButton />
-          <Profile />
+          {(!!appUser ? <div><LogoutButton /><Profile /></div> : <LoginButton />)}
           <Switch>
             <Route exact path='/'>{<Home />}</Route>
           </Switch>

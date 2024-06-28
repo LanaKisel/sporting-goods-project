@@ -40,8 +40,8 @@ const EquipmentByCategory = () => {
 
     const equipment = equipments.map(e => (
         <div key={e.id}>
-            <img className="equipment_pic" src={e.pictures}></img>,
-            <Link to={`/equipments/${e.id}`}>{e.name}, {e.make}</Link>
+            <img className="equipment_pic" src={e.pictures}></img>
+            <Link to={`/equipments/${e.id}`}>{e.name}</Link>
             <br />
             <br />
         </div>
@@ -50,7 +50,7 @@ const EquipmentByCategory = () => {
 
     return (
         <div>
-            <h2>{category_name}</h2>
+            <h2 style = {{textAlign:"center"}}>{category_name}</h2>
             {equipment}
         </div>
     )

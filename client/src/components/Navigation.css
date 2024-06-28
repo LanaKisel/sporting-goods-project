@@ -1,5 +1,5 @@
 .nav-link{
-    display: inline-block;
+    /* display: inline-block; */
     box-sizing: border-box; 
     width: 100px;
     padding: 5px;
@@ -10,9 +10,11 @@
     font-size: min(10vw, 15px) ;
     color: rgb(0, 0, 0);
     border-radius: 8px;
+    float: left
 }
 
 .active {
     background-color: rgb(0, 0, 0);
     color: white;
+
 }

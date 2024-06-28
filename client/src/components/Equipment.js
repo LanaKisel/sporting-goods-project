@@ -57,7 +57,7 @@ const Equipment = () => {
 
     return (
         <div>
-            <h2>{equipment.name}</h2>
+            <h2 style = {{textAlign:"center"}}>{equipment.name}</h2>
             {/* {equipment.pictures.split('|').map((p, i) => {
                     if (p.startsWith('http')) {
                         return <img key={'equipment_pic_' + i} className='equipment_pic' src={p}></img>
@@ -66,8 +66,8 @@ const Equipment = () => {
 
                     }
                 })}         */}
-            <img className="equipment_pic" src={equipment.pictures}></img> 
-            <h2>Rent price : {equipment.rent_price}</h2>
+            <img className="equipment" src={equipment.pictures}></img> 
+            <h2>Rent price : ${equipment.rent_price}.00</h2>
             {review}
             <Button type='primary' onClick={openModal}>Click to rent</Button>            
             {/* <button onClick={openModal}>Click to rent</button> */}

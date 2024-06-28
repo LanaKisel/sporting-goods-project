@@ -13,13 +13,13 @@ from models import db, User, Equipment, Review, Rental, Category
 def create_categories():
     categories=[]
     c1 = Category(
-        category_name = 'paddle boards'
+        category_name = 'Paddle bBoards'
     )
     c2 = Category(
-        category_name = 'surf boards'
+        category_name = 'Surf Boards'
     )
     c3 = Category(
-        category_name = 'bikes'
+        category_name = 'Bikes'
     )
     categories.append(c1)
     categories.append(c2)
