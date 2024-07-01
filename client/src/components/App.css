@@ -4,6 +4,27 @@ body {
 .header_h1 {
     text-align: left;
 }
+.row {
+    margin-top: 100px;
+    margin-left: 90px;    
+    display: flex;
+}
+
+.column {
+flex: 50%;
+}
+
+.container {
+    columns: 2 auto;
+  }
+.categoryContainer {
+        display: grid; 
+        grid-template-columns: 1fr 1fr 1fr; 
+        gap: 3px 3px; 
+        max-width:70vw;
+        margin-left:auto;
+        margin-right: auto;
+}  
 .homepage_photo {
     /* text-align: center;
     display: block;
@@ -41,14 +62,29 @@ body {
     justify-content: center;
     align-items: center;
     margin: auto;
-    width: 50%;
+    width: 30%;
     margin-top: 30px;
     margin-right: 20px;
-    margin-left: 20px;
+    margin-left: 130px;
 }
 .equipment {
     display: block;
     justify-content: center;
+    align-items: center;
     margin: auto;
     width: 50%;
+}
+.bookingsPic {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    width: 30%;
+    margin-top: 30px;
+    margin-right: 20px;
+    margin-left: 130px;
+
+}
+.h2Bookings {
+    text-align: center;
 }

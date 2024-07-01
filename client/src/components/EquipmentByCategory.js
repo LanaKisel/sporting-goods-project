@@ -41,7 +41,7 @@ const EquipmentByCategory = () => {
     const equipment = equipments.map(e => (
         <div key={e.id}>
             <img className="equipment_pic" src={e.pictures}></img>
-            <Link to={`/equipments/${e.id}`}>{e.name}</Link>
+            <Link style={{marginLeft: 300}}to={`/equipments/${e.id}`}>{e.name}</Link>
             <br />
             <br />
         </div>

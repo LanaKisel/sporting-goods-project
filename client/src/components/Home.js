@@ -28,8 +28,9 @@ const Home = () => {
             <h3 className='homepage_h3'>Check out sport equipment that's available to rent</h3> */}
             <br/>
             <h3 className='cat_h3'>Categories:</h3>
-            
+            <div className='categoryContainer'>
             {category}
+            </div>
             <h2 className='homepage_h2'>Available equipment near you:</h2>
         </div>
     )

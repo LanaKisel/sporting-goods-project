@@ -13,7 +13,7 @@ from models import db, User, Equipment, Review, Rental, Category
 def create_categories():
     categories=[]
     c1 = Category(
-        category_name = 'Paddle bBoards'
+        category_name = 'Paddle Boards'
     )
     c2 = Category(
         category_name = 'Surf Boards'
@@ -21,10 +21,25 @@ def create_categories():
     c3 = Category(
         category_name = 'Bikes'
     )
+    c4 = Category(
+        category_name = 'Snowboards'
+    )
+    c5 = Category (
+        category_name = 'Kayaks'
+    )
+    c6 = Category(
+        category_name = 'Volleyball nets'
+    )
+    c7 = Category(
+        category_name = 'Jet Ski'
+    )
     categories.append(c1)
     categories.append(c2)
     categories.append(c3)
-    
+    categories.append(c4)
+    categories.append(c5)
+    categories.append(c6)
+    categories.append(c7)
     return categories
 def create_equipments():
     equipments=[]
@@ -63,12 +78,43 @@ def create_equipments():
         user_id=2,
         category_id=1
     )
+    e6 = Equipment(
+        name = 'Black Snowboard',
+        pictures = 'https://img.freepik.com/free-photo/snowboarder-hold-snowboard-top-hill-close-up-portrait-snow-mountains-snowboarding-slopes_231208-11161.jpg?t=st=1719856470~exp=1719860070~hmac=3d000135c1956e7476974d2625500824265044a02b2911f7e6661e7fdc7fb011&w=360',
+        rent_price = 50,
+        user_id = 1,
+        category_id = 4
+    )
+    e7 = Equipment(
+        name = 'Yellow medium size kayak',
+        pictures = 'https://img.freepik.com/free-photo/girls-rowing-kayak_23-2148683922.jpg?t=st=1719862488~exp=1719866088~hmac=c7e17ffbe105056b39e5c8fd7cac6b30395084a470c1dc883187d8e9ede43cf8&w=900',
+        rent_price= 100,
+        user_id = 2,
+        category_id = 5
+    )
+    e8 = Equipment(
+        name= 'Volleyball net',
+        pictures = 'https://img.freepik.com/premium-photo/close-up-volleyball-net-with-sea-beach-blue-sky-summer-nature-outdoor-sport-concept_32485-474.jpg?w=900',
+        rent_price = 30,
+        user_id = 2,
+        category_id = 6
+    )
+    e9 = Equipment(
+        name = 'High speed Jet Ski',
+        pictures = 'https://img.freepik.com/free-photo/young-people-having-fun-driving-high-speed-water-scooter-man-woman-summer-vacation-friends-doing-active-sport_285396-430.jpg?t=st=1719862848~exp=1719866448~hmac=85d9e2108ce6bb2143bb2bdeb64f7b7ee3711c622788c8a9d333bb975ee276f6&w=900',
+        rent_price = 400,
+        user_id = 2,
+        category_id = 7
+    )
     equipments.append(e1)
     equipments.append(e2)
     equipments.append(e3)
     equipments.append(e4)
     equipments.append(e5)
-    
+    equipments.append(e6)
+    equipments.append(e7)
+    equipments.append(e8)
+    equipments.append(e9)
     return equipments
 
 def create_reviews():

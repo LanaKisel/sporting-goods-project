@@ -249,8 +249,6 @@ class Rentals(Resource):
             user_id = data['user_id'],
             equipment_id = data['equipment_id'],
             location = data['location'],
-            # start_date=data['date'],
-            # end_date=data['date']
             start_date = datetime.strptime(data['start_date'], '%Y-%m-%d'),
             end_date = datetime.strptime(data['end_date'], '%Y-%m-%d')
         )

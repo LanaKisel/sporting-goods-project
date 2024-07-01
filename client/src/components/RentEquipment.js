@@ -8,9 +8,18 @@ const RentEquipment = ({ equipment_id }) => {
     //const [user, setUser] = useState({ name: "", id: -1 });
     let history = useHistory();
     const formSchema = Yup.object().shape({
-        location: Yup.string().required("Location can't be empty").max(60),
-        start_date: Yup.date().min(new Date(), 'Rent date must be in the future.'),
-        end_date: Yup.date().min(new Date(), 'Rent date must be in the future.')
+        location: Yup
+            .string()
+            .required("Location must be specified")
+            .max(60, ''),
+        start_date: Yup
+            .date()
+            .required('Rent Start Date must be specified')
+            .min(new Date(), 'Rent date must be in the future.'),
+        end_date: Yup
+            .date()
+            .required('Rent Date must be specified')
+            .min(new Date(), 'Rent date must be in the future.'),
     })
     const formik = useFormik({
         initialValues: {

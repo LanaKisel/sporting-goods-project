@@ -67,9 +67,11 @@ const Equipment = () => {
                     }
                 })}         */}
             <img className="equipment" src={equipment.pictures}></img> 
-            <h2>Rent price : ${equipment.rent_price}.00</h2>
+            <h2 style = {{marginLeft: 20}}>Rent price : ${equipment.rent_price}.00</h2>
             {review}
-            <Button type='primary' onClick={openModal}>Click to rent</Button>            
+            <br/>
+            <Button style = {{marginLeft: 20, marginBottom: 20}} type='primary' onClick={openModal}>Click to rent</Button>     
+            <br/>       
             {/* <button onClick={openModal}>Click to rent</button> */}
             <Modal
                 isOpen={modalIsOpen}

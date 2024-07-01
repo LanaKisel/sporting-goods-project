@@ -4,6 +4,8 @@ import { format } from 'date-fns'
 import Modal from 'react-modal'
 import UpdateRent from './UpdateRent';
 import CancelRent from './CancelRent';
+import { Button } from 'antd';
+
 Modal.setAppElement('#root');
 const customStyles = {
   content: {
@@ -18,55 +20,64 @@ const customStyles = {
 };
 
 const EqRented = () => {
-    let { id } = useParams()
-    const [rent, setRent] = useState([])
-    useEffect(()=>{
-        fetch(`/rentals/${id}`)
-        .then(r=>r.json())
-        .then(data =>(
-            setRent(data)
-        ))
-    }, [])
-    const [updateModalIsOpen, setUpdateIsOpen] = React.useState(false);
-    const [cancelModalIsOpen, setCancelIsOpen] = React.useState(false);
-    
-    function openUpdateModal() {
-        setUpdateIsOpen(true);
-      }
-    
-      function openCancelModal() {
-        setCancelIsOpen(true);
-      }
-    
-      function closeUpdateModal() {
-        setUpdateIsOpen(false);
-      }
-      function closeCancelModal() {
-        setCancelIsOpen(false);
-      }
-  
-    return (
+  let { id } = useParams()
+  const [rent, setRent] = useState([])
+  useEffect(() => {
+    fetch(`/rentals/${id}`)
+      .then(r => r.json())
+      .then(data => (
+        console.log(data),
+        setRent(data)
+      ))
+  }, [])
+  // console.log(rent.equipment.name, rent.equipment)
+  const [updateModalIsOpen, setUpdateIsOpen] = React.useState(false);
+  const [cancelModalIsOpen, setCancelIsOpen] = React.useState(false);
+
+  function openUpdateModal() {
+    setUpdateIsOpen(true);
+  }
+
+  function openCancelModal() {
+    setCancelIsOpen(true);
+  }
+
+  function closeUpdateModal() {
+    setUpdateIsOpen(false);
+  }
+  function closeCancelModal() {
+    setCancelIsOpen(false);
+  }
+
+  return (
     <div>
-        <h2>Here're details of the rent:</h2>
-        <h3>Location: {rent.location}</h3>
-        <h3>Dates: {rent.start_date? format(new Date((rent.start_date + 'Z').replace(/-/g, '/')), 'MMMM do yyyy'): ""} - {rent.start_date? format(new Date((rent.end_date + 'Z').replace(/-/g, '/')), 'MMMM do yyyy'): ""}</h3>
-        <br/>
-        <button type = 'button' onClick={openUpdateModal}>Update rent</button>
-        <br/>
-        <button type='button' onClick={openCancelModal}>Cancel rent</button>
-        <Modal
+      <h2 style={{ textAlign: 'center' }}>Here're the details of your rental:</h2>
+      {/* <div className='row'>
+        <div className='column'> */}
+        {/* <img className='bookingsPic'src={rent.equipment.pictures}></img> */}
+        {/* </div>
+        <div className='column'> */}
+          {/* <h3 style={{ textAlign: "center" }}>{rent.equipment.name}</h3> */}
+          <h3 style={{ textAlign: "left", marginLeft: 40 }}>Location: {rent.location}</h3>
+          <h3 style={{ textAlign: "left",marginLeft: 40  }}>Dates: {rent.start_date} - {rent.end_date}</h3>
+          <Button type='primary' onClick={openUpdateModal}>Update Rental</Button>
+          <Button type='primary' onClick={openCancelModal}>Cancel Rental</Button>
+        {/* </div> */}
+      {/* </div>     */}
+      <Modal
         isOpen={updateModalIsOpen}
         style={customStyles}
+        onRequestClose={closeUpdateModal}
         contentLabel="Update rent Modal">
-        {<UpdateRent rent_id={rent.id}/>}
-        </Modal>
-        <Modal
+        {<UpdateRent rent_id={rent.id} />}
+      </Modal>
+      <Modal
         isOpen={cancelModalIsOpen}
         onRequestClose={closeCancelModal}
         style={customStyles}
         contentLabel="Cancel photoshoot Modal">
-        {<CancelRent rent_id={rent.id}/>}
-      </Modal>      
+        {<CancelRent rent_id={rent.id} />}
+      </Modal>
     </div>
   )
 }
