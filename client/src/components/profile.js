@@ -12,7 +12,7 @@ const Profile = () => {
 
   return (
     isAuthenticated && !!appUser && (
-      <div>
+      <div style={{display: 'inline-block', width:"100%"}}>
         {/* <img src={user.picture} alt={user.name} /> */}
         <h2 style={{textAlign:"right"}}>{appUser.name}</h2>
         {/* <p>{user.email}</p> */}

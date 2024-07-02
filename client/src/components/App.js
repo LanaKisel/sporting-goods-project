@@ -32,8 +32,8 @@ function App() {
   const appUser = useSelector((state) => state.user.value.user);
 
   useEffect(() => {
-    if (isAuthenticated) { 
-      getAccessTokenSilently().then((at) => { 
+    if (isAuthenticated) {
+      getAccessTokenSilently().then((at) => {
         dispatch(setToken(at));
         fetch('/users/me', {
           headers: new Headers({
@@ -52,33 +52,33 @@ function App() {
 
 
   return (
-    <ConfigProvider theme={{ token: {colorPrimary: gray.primary,}, }}>
-    <EquipmentsProvider>
-      <Router>   
-        <Navigation/>  
-        <div>
-          {(!!appUser ? <div><LogoutButton /><Profile /></div> : <LoginButton />)}
-          <Switch>
-            <Route exact path='/'>{<Home />}</Route>
-          </Switch>
-          <Switch>
-            <Route exact path="/categories/:category_name">{<EquipmentByCategory />}</Route>
-          </Switch>
-          <Switch>
-            <Route exact path='/equipments/:id'>{<Equipment />}</Route>
-          </Switch>
-          <Switch>
-            <Route exact path='/rentals/:id'>{<EqRented />}</Route>
-          </Switch>
-          <Switch>
-            <Route exact path='/rentals'>{<RentEquipment />}</Route>
-          </Switch>
-          <Switch>
-            <Route exact path='/mybookings'>{<Bookings />}</Route>
-          </Switch>
-        </div>
-      </Router>
-    </EquipmentsProvider>
+    <ConfigProvider theme={{ token: { colorPrimary: gray.primary, }, }}>
+      <EquipmentsProvider>
+        <Router>
+          <Navigation />
+          {(!!appUser ? <div style={{ display: 'flex' }}><LogoutButton /><Profile /></div> : <LoginButton />)}
+          <div style={{clear: 'both'}}>
+            <Switch>
+              <Route exact path='/'>{<Home />}</Route>
+            </Switch>
+            <Switch>
+              <Route exact path="/categories/:category_name">{<EquipmentByCategory />}</Route>
+            </Switch>
+            <Switch>
+              <Route exact path='/equipments/:id'>{<Equipment />}</Route>
+            </Switch>
+            <Switch>
+              <Route exact path='/rentals/:id'>{<EqRented />}</Route>
+            </Switch>
+            <Switch>
+              <Route exact path='/rentals'>{<RentEquipment />}</Route>
+            </Switch>
+            <Switch>
+              <Route exact path='/mybookings'>{<Bookings />}</Route>
+            </Switch>
+          </div>
+        </Router>
+      </EquipmentsProvider>
     </ConfigProvider>
   );
 }
