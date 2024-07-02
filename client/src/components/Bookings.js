@@ -34,17 +34,18 @@ const Bookings = () => {
         setIsOpen(false);
     }
     const booking = bookings.map(b=>(
-      <div className='row'>
+      <div className='row' style={{border:'dashed 1px black'}}>
         <div className='column'>
           <img className='bookingsPic'src={b.equipment.pictures}></img>
         </div>
         <div className='column'> 
-          <br/>
-          <br/>
-          <h3 style={{textAlign:"center"}}>{b.equipment.name}</h3>         
+
+          <h3 style={{textAlign:"center", marginTop:'2em'}}>{b.equipment.name}</h3>         
           <h3 style={{textAlign:"center"}}>Location: {b.location}</h3>
           <h3 style={{textAlign:"center"}}>Dates: {b.start_date} - {b.end_date}</h3>
-          <Button type='primary' style = {{marginLeft: 'auto'}}onClick={openModal}>Cancel Rental</Button>
+          <div>
+          <Button type='primary' style = {{marginLeft: 'auto', marginRight: 'auto', display: 'block'}} onClick={openModal}>Cancel Rental</Button>
+          </div>
           <br/>
           <Modal
                 isOpen={modalIsOpen}

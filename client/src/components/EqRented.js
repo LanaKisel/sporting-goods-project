@@ -52,18 +52,20 @@ const EqRented = () => {
   return (
     <div>
       <h2 style={{ textAlign: 'center' }}>Here're the details of your rental:</h2>
-      {/* <div className='row'>
-        <div className='column'> */}
-        {/* <img className='bookingsPic'src={rent.equipment.pictures}></img> */}
-        {/* </div>
-        <div className='column'> */}
-          {/* <h3 style={{ textAlign: "center" }}>{rent.equipment.name}</h3> */}
-          <h3 style={{ textAlign: "left", marginLeft: 40 }}>Location: {rent.location}</h3>
-          <h3 style={{ textAlign: "left",marginLeft: 40  }}>Dates: {rent.start_date} - {rent.end_date}</h3>
-          <Button type='primary' onClick={openUpdateModal}>Update Rental</Button>
-          <Button type='primary' onClick={openCancelModal}>Cancel Rental</Button>
-        {/* </div> */}
-      {/* </div>     */}
+      <div className='row'>
+        <div className='column'>
+          {!!rent && !!rent.equipment && <img className='bookingsPic' src={rent.equipment.pictures}></img>}
+        </div>
+        <div className='column'>
+          {!!rent && !!rent.name && <h3 style={{ textAlign: "center" }}>{rent.equipment.name}</h3>}
+          <h3 style={{ textAlign: "center", marginLeft: 40 }}>Location: {rent.location}</h3>
+          <h3 style={{ textAlign: "center", marginLeft: 40 }}>Dates: {rent.start_date} - {rent.end_date}</h3>
+          <div style={{ display: 'block', textAlign: 'center'}}>
+            <Button type='primary' style={{ marginRight: '1em' }} onClick={openUpdateModal}>Update Rental</Button>
+            <Button type='primary' style={{ marginLeft:'1em' }} onClick={openCancelModal}>Cancel Rental</Button>
+          </div>
+        </div>
+      </div>
       <Modal
         isOpen={updateModalIsOpen}
         style={customStyles}
