@@ -16,13 +16,14 @@ import RentEquipment from "./RentEquipment";
 import UpdateRent from "./UpdateRent";
 import CancelRent from "./CancelRent";
 import Bookings from "./Bookings";
+import Policies from "./Policies";
 import { useSelector, useDispatch } from 'react-redux'
 import { setUser, setToken } from '../userSlice'
 import { useAuth0 } from "@auth0/auth0-react";
 import { ConfigProvider } from 'antd';
 import { gray } from '@ant-design/colors';
-
 import Header from "./Header";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -75,6 +76,9 @@ function App() {
             </Switch>
             <Switch>
               <Route exact path='/mybookings'>{<Bookings />}</Route>
+            </Switch>
+            <Switch>
+              <Route exact path='/terms&conditions'>{<Policies/>}</Route>
             </Switch>
           </div>
         </Router>
