@@ -6,10 +6,10 @@ const Review = ({review}) => {
     
     return (
         <div>
-            <h2>Reviews:</h2>
-            <h3>{review.user.name}</h3>
-            <p>{review.text}</p>
-            {(!review.photos || review.photos.length()===0 )? <br/> : <img src={review.photos}></img> }
+            <h3>Reviews:</h3>            
+            <p>"{review.text}"</p>
+            {(!review.photos || review.photos.length()===0 )? "" : <img src={review.photos}></img> }
+            <h6>{review.user.name}</h6>
 
         </div>
     )
