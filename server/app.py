@@ -36,6 +36,14 @@ require_auth.register_token_validator(validator)
 auth0_users = Users("dev-pq7dg4vajftv7igc.us.auth0.com")
 #Auth0
 
+def getCurrentUserId():
+    auth_header = request.headers.get('Authorization')
+    bearer_token = auth_header.split()[1]
+    auth0_userinfo = auth0_users.userinfo(bearer_token)
+
+    user = User.query.filter(User.sub == current_token.sub).first()
+    return user.id
+
 @app.route('/')
 def index():
     return '<h1>Project Server</h1>'
@@ -240,11 +248,12 @@ class Rentals(Resource):
     def get(self):
         rental = [rental.to_dict() for rental in Rental.query.all()]
         return make_response(rental, 200)
+    @require_auth(None)
     def post(self):
         data = request.get_json()
         # try:
         new_rental = Rental(
-            user_id = data['user_id'],
+            user_id = getCurrentUserId(),
             equipment_id = data['equipment_id'],
             location = data['location'],
             start_date = datetime.strptime(data['start_date'], '%Y-%m-%d'),

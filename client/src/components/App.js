@@ -32,13 +32,7 @@ function App() {
   const { isAuthenticated, getAccessTokenSilently, isLoading} = useAuth0();
 
   const token = useSelector((state) => state.user.value.token);
-  const {
-    data: currUser,
-    refetch: refetchCurrUser,
-    isLoading: currUserIsLoading,
-    isError: currUserIsError,
-    isFetching: currUserIsFetching
-  } = useGetCurrentUserQuery(token ?? skipToken)
+  const { data: currUser } = useGetCurrentUserQuery(token ?? skipToken)
 
   useEffect(() => {
     if (!isAuthenticated) { // if user logs out/loses auth status => remove token
