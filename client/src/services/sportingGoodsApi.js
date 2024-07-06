@@ -51,7 +51,10 @@ export const sportingGoodsApi = createApi({
         body: body,
       }),
     }),
+    getEquipmentsByCategory: builder.query({
+      query: (category_id) => `/equipments/category/${category_id}`,
+    })
   }),
 })
 
-export const { useGetCurrentUserQuery, useGetUserByNameQuery, useCreateUserMutation, useGetCategoriesQuery, useGetCategoryByNameQuery, useCreateCategoryMutation } = sportingGoodsApi
+export const { useGetCurrentUserQuery, useGetUserByNameQuery, useCreateUserMutation, useGetCategoriesQuery, useGetCategoryByNameQuery, useCreateCategoryMutation, useGetEquipmentsByCategoryQuery } = sportingGoodsApi
