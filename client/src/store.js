@@ -1,16 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './userSlice'
 
-let preloadedState
-const categories= ['tennis', 'surf boards', 'soccer', 'bikes', 'paddle boards', 'snowboards', 'volleyball', 'kayaks', 'backpacking', 'football']
+import { setupListeners } from '@reduxjs/toolkit/query'
 
-preloadedState={
-    categories:categories
-}
+import { sportingGoodsApi } from './services/sportingGoodsApi'
 
 export const store = configureStore({
     reducer: {
         user: userReducer,
-    }, 
-    preloadedState: preloadedState
-  })
+        [sportingGoodsApi.reducerPath]: sportingGoodsApi.reducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+        .concat(sportingGoodsApi.middleware)
+})
+
+setupListeners(store.dispatch)

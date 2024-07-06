@@ -62,15 +62,6 @@ class Users(Resource):
         else:
             return make_response(existing_user.to_dict(), 201)        
 api.add_resource(Users, '/users')    
-
-class UserByName(Resource):
-    def get(self, name):
-        user = User.query.filter(User.name == name).first()
-        if user:
-            return make_response(user.to_dict(), 200)
-        return {'error':'User not found'}, 404
-api.add_resource(UserByName, '/users/<name>')
-# class BookingsByUser()
 class CurrentUser(Resource):
     @require_auth(None)
     def get(self):
@@ -92,6 +83,15 @@ class CurrentUser(Resource):
 
         return make_response(user.to_dict(), 200)
 api.add_resource(CurrentUser, '/users/me')
+class UserByName(Resource):
+    def get(self, name):
+        user = User.query.filter(User.name == name).first()
+        if user:
+            return make_response(user.to_dict(), 200)
+        return {'error':'User not found'}, 404
+api.add_resource(UserByName, '/users/<name>')
+# class BookingsByUser()
+
 
 class Equipments(Resource):
     def get(self):
@@ -115,7 +115,6 @@ class Equipments(Resource):
         except:
             return {'errors':'validation errors'}, 400
 api.add_resource(Equipments, '/equipments')
-
 class EquipmentById(Resource):
     def get(self, id):
         equipment = Equipment.query.filter(Equipment.id ==id).first()
@@ -162,7 +161,6 @@ class Categories(Resource):
         except:
             return {'error':'validation error'}, 400            
 api.add_resource(Categories, '/categories')   
-
 class CategoryByName(Resource):
     def get(self, category_name):
         category= Category.query.filter(Category.category_name== category_name).first()

@@ -18,47 +18,47 @@ import CancelRent from "./CancelRent";
 import Bookings from "./Bookings";
 import Policies from "./Policies";
 import { useSelector, useDispatch } from 'react-redux'
-import { setUser, setToken } from '../userSlice'
+import { setToken } from '../userSlice'
 import { useAuth0 } from "@auth0/auth0-react";
 import { ConfigProvider } from 'antd';
 import { gray } from '@ant-design/colors';
 import Header from "./Header";
+import { skipToken } from '@reduxjs/toolkit/query/react'
+import { useGetCurrentUserQuery } from "../services/sportingGoodsApi"
 
 
 function App() {
   const dispatch = useDispatch();
-  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, isLoading} = useAuth0();
 
   const token = useSelector((state) => state.user.value.token);
-  const appUser = useSelector((state) => state.user.value.user);
+  const {
+    data: currUser,
+    refetch: refetchCurrUser,
+    isLoading: currUserIsLoading,
+    isError: currUserIsError,
+    isFetching: currUserIsFetching
+  } = useGetCurrentUserQuery(token ?? skipToken)
 
   useEffect(() => {
-    if (isAuthenticated) {
-      getAccessTokenSilently().then((at) => {
-        dispatch(setToken(at));
-        fetch('/users/me', {
-          headers: new Headers({
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json',
-            'authorization': 'Bearer ' + at
-          })
+    if (!isAuthenticated) { // if user logs out/loses auth status => remove token
+      dispatch(setToken(undefined));
+    } else {
+      if (!token) { // if no token AND authenticated, get token then set token
+        getAccessTokenSilently().then(at => {
+          dispatch(setToken(at));
         })
-          .then(r => r.json())
-          .then(data => {
-            dispatch(setUser(data))
-          })
-      });
+      }
     }
-  }, [isAuthenticated, token])
-
+  }, [isAuthenticated, token, currUser])
 
   return (
     <ConfigProvider theme={{ token: { colorPrimary: gray.primary, }, }}>
       <EquipmentsProvider>
         <Router>
           <Navigation />
-          {(!!appUser ? <div style={{ display: 'flex' }}><LogoutButton /><Profile /></div> : <LoginButton />)}
-          <div style={{clear: 'both'}}>
+          {(!!currUser ? <div style={{ display: 'flex' }}><LogoutButton /><Profile /></div> : (!isAuthenticated && !isLoading ? <LoginButton /> : <></>))}
+          <div style={{ clear: 'both' }}>
             <Switch>
               <Route exact path='/'>{<Home />}</Route>
             </Switch>
@@ -78,7 +78,7 @@ function App() {
               <Route exact path='/mybookings'>{<Bookings />}</Route>
             </Switch>
             <Switch>
-              <Route exact path='/terms&conditions'>{<Policies/>}</Route>
+              <Route exact path='/terms&conditions'>{<Policies />}</Route>
             </Switch>
           </div>
         </Router>
