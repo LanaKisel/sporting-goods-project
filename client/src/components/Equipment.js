@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Modal from 'react-modal'
 import RentEquipment from './RentEquipment';
-import { useSelector, useDispatch } from 'react-redux'
 import Review from './Review';
 import { Button } from 'antd';
 import {gray} from '@ant-design/colors';
+
+import { skipToken } from '@reduxjs/toolkit/query/react'
+import { useGetEquipmentByIdQuery, useGetEquipmentReviewsByEquipmentIdQuery } from "../services/sportingGoodsApi"
+
 const customStyles = {
     content: {
         overflow: 'visible',
@@ -20,29 +23,13 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 const Equipment = () => {
-    const [equipment, setEquipment] = useState('')
-    const [reviews, setReviews] = useState([])
     let { id } = useParams()
-
-    const token = useSelector((state) => state.user.value.token);
-    console.log('token from equipment.js',token)
-    useEffect(()=>{
-        fetch(`/equipments/${id}`)
-        .then(r=>r.json())
-        .then(data=>(
-            setEquipment(data)
-        ))
-    }, [])
-    
-    useEffect(()=>{
-        fetch(`/equipments/${id}/reviews`)
-        .then(r=>r.json())
-        .then(data=>setReviews(data))
-    },[])
+    const { data: equipment } = useGetEquipmentByIdQuery(id ?? skipToken)
+    const { data: reviews = [] } = useGetEquipmentReviewsByEquipmentIdQuery(equipment?.id ?? skipToken)
     
     const review=reviews.map((r)=>(<Review key={r.id} review={r}/>))
 
-    const [modalIsOpen, setIsOpen] = React.useState(false);
+    const [modalIsOpen, setIsOpen] = useState(false);
 
     function openModal(){
         setIsOpen(true);
@@ -56,6 +43,7 @@ const Equipment = () => {
     }
 
     return (
+        !equipment ? <></> :
         <div>
             <h2 style = {{textAlign:"center"}}>{equipment.name}</h2>
             {/* {equipment.pictures.split('|').map((p, i) => {

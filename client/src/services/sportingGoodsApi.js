@@ -53,8 +53,24 @@ export const sportingGoodsApi = createApi({
     }),
     getEquipmentsByCategory: builder.query({
       query: (category_id) => `/equipments/category/${category_id}`,
+    }),
+    getEquipmentById: builder.query({
+      query: (equipment_id) => `/equipments/${equipment_id}`,
+    }),
+    getEquipmentReviewsByEquipmentId: builder.query({
+      query: (equipment_id) => `/equipments/${equipment_id}/reviews`
     })
   }),
 })
 
-export const { useGetCurrentUserQuery, useGetUserByNameQuery, useCreateUserMutation, useGetCategoriesQuery, useGetCategoryByNameQuery, useCreateCategoryMutation, useGetEquipmentsByCategoryQuery } = sportingGoodsApi
+export const { 
+  useGetCurrentUserQuery, 
+  useGetUserByNameQuery, 
+  useCreateUserMutation, 
+  useGetCategoriesQuery, 
+  useGetCategoryByNameQuery, 
+  useCreateCategoryMutation, 
+  useGetEquipmentsByCategoryQuery, 
+  useGetEquipmentByIdQuery,
+  useGetEquipmentReviewsByEquipmentIdQuery
+} = sportingGoodsApi
