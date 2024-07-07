@@ -1,23 +1,19 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import React from "react";
-import { useSelector, useDispatch } from 'react-redux'
+import { useGetCurrentUserQuery } from "../services/sportingGoodsApi"
 
 const Profile = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
-  const appUser = useSelector((state) => state.user.value.user);
+  const { data: currUser, isLoading: currUserIsLoading } = useGetCurrentUserQuery()
 
-  if (isLoading) {
-    return <div>Loading ...</div>;
+  if (currUserIsLoading) {
+    return <div style={{ display: 'inline-block', width: "100%", textAlign: "right" }}>Loading ...</div>;
   }
 
   return (
-    isAuthenticated && !!appUser && (
-      <div style={{display: 'inline-block', width:"100%"}}>
+    !currUser ? <></> :
+      <div style={{ display: 'inline-block', width: "100%" }}>
         {/* <img src={user.picture} alt={user.name} /> */}
-        <h2 style={{textAlign:"right"}}>{appUser.name}</h2>
+        <h2 style={{ textAlign: "right" }}>{currUser.name}</h2>
         {/* <p>{user.email}</p> */}
       </div>
-    )
   );
 };
 
