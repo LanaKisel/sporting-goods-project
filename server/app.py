@@ -52,7 +52,7 @@ class Users(Resource):
     def get(self):
         user = [user.to_dict() for user in User.query.all()]
         return make_response(user, 200)
-    def post(self):
+    """ def post(self):
         data = request.get_json()
         existing_user = User.query.filter(User.name == data['name']).first()
         if existing_user == None:
@@ -68,7 +68,7 @@ class Users(Resource):
             except:
                 return {'errors': 'validation errors'}, 400
         else:
-            return make_response(existing_user.to_dict(), 201)        
+            return make_response(existing_user.to_dict(), 201)      """   
 api.add_resource(Users, '/users')    
 class CurrentUser(Resource):
     @require_auth(None)
@@ -98,8 +98,6 @@ class UserByName(Resource):
             return make_response(user.to_dict(), 200)
         return {'error':'User not found'}, 404
 api.add_resource(UserByName, '/users/<name>')
-# class BookingsByUser()
-
 
 class Equipments(Resource):
     def get(self):
@@ -151,6 +149,14 @@ class EquipmentById(Resource):
             return {}, 204
         return {'error': 'Equipment not found'}, 404    
 api.add_resource(EquipmentById, '/equipments/<int:id>') 
+class EquipmentByCategoryId(Resource):
+    def get(self, category_id):
+        category= Category.query.filter(Category.id== category_id).first()
+        if category is None:
+            return {'error': 'category not found'}, 404
+        equipment = [equipment.to_dict() for equipment in Equipment.query.filter(Equipment.category_id== category_id).all()]
+        return make_response(equipment, 200)   
+api.add_resource(EquipmentByCategoryId, '/equipments/category/<int:category_id>')       
 
 class Categories(Resource):
     def get(self):
@@ -176,15 +182,6 @@ class CategoryByName(Resource):
             return make_response(category.to_dict(), 200)
         return {'error':'category not found'}, 404   
 api.add_resource(CategoryByName, '/categories/<category_name>')   
-
-class EquipmentByCategoryId(Resource):
-    def get(self, category_id):
-        category= Category.query.filter(Category.id== category_id).first()
-        if category is None:
-            return {'error': 'category not found'}, 404
-        equipment = [equipment.to_dict() for equipment in Equipment.query.filter(Equipment.category_id== category_id).all()]
-        return make_response(equipment, 200)   
-api.add_resource(EquipmentByCategoryId, '/equipments/category/<int:category_id>')               
 
 class Reviews(Resource):
     def get(self):
@@ -233,17 +230,15 @@ class ReviewById(Resource):
             db.session.commit()
             return {}, 204
         return {'error': 'Review not found'}, 404
-
 api.add_resource(ReviewById, '/reviews/<int:id>')         
-
-class ReviewByEquipmentId(Resource):
+class ReviewsByEquipmentId(Resource):
     def get(self, equipment_id):
         equipment= Equipment.query.filter(Equipment.id == equipment_id).first()
         if equipment:
             reviews = [review.to_dict() for review in equipment.reviews]
             return make_response(reviews, 200)
         return {'error':'Equipment not found'}, 404
-api.add_resource(ReviewByEquipmentId, '/equipments/<int:equipment_id>/reviews')         
+api.add_resource(ReviewsByEquipmentId, '/equipments/<int:equipment_id>/reviews')         
 
 class Rentals(Resource):
     @require_auth(None)
