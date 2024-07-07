@@ -245,8 +245,9 @@ class ReviewByEquipmentId(Resource):
 api.add_resource(ReviewByEquipmentId, '/equipments/<int:equipment_id>/reviews')         
 
 class Rentals(Resource):
+    @require_auth(None)
     def get(self):
-        rental = [rental.to_dict() for rental in Rental.query.all()]
+        rental = [rental.to_dict() for rental in Rental.query.filter(Rental.user_id == getCurrentUserId()).all()]
         return make_response(rental, 200)
     @require_auth(None)
     def post(self):
@@ -288,14 +289,18 @@ class RentalById(Resource):
             db.session.commit()
             return make_response(rental.to_dict(), 202)
         return {'error': 'Rental not found'}, 404
+    @require_auth(None)
     def delete(self, id):
         rental = Rental.query.filter(Rental.id==id).first()
         if rental:
+            if rental.user_id != getCurrentUserId():
+                return {}, 403 #only rentee may cancel/delete
             db.session.delete(rental)
             db.session.commit()
             return {}, 204
         return {'error': 'Review not found'}, 404 
-api.add_resource(RentalById, '/rentals/<int:id>')              
+api.add_resource(RentalById, '/rentals/<int:id>')     
+        
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

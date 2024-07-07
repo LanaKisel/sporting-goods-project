@@ -3,11 +3,15 @@
 /////////
 ///////////////////need user//////////////////
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Modal from 'react-modal'
 import { Button } from 'antd';
 import CancelRent from './CancelRent';
 import CreateReview from './CreateReview';
+
+import { skipToken } from '@reduxjs/toolkit/query/react'
+import { useGetRentalsQuery } from "../services/sportingGoodsApi"
+
 const customStyles = {
   content: {
     overflow: 'visible',
@@ -22,71 +26,64 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 const Bookings = () => {
+  const { data: bookings } = useGetRentalsQuery()
 
-  const [bookings, setBookings] = useState([])
-  useEffect(() => {
-    fetch('/rentals')
-      .then(r => r.json())
-      .then(data => (
-        console.log(data),
-        setBookings(data)))
-  }, [])
-  
-  console.log('bookings.js, bookings', bookings)
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [reviewModalIsOpen, setReviewModalIsOpen] = React.useState(false)
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [reviewModalIsOpen, setReviewModalIsOpen] = useState(false)
+  const [selectedBookingId, setSelectedBookingId] = useState(undefined)
+  const [selectedEquipmentId, setSelectedEquipmentId] = useState(undefined)
 
-  function openModal() {
+  function openModal(id) {
+    setSelectedBookingId(id);
     setIsOpen(true);
   }
   function closeModal() {
     setIsOpen(false);
   }
 
-  function openReviewModal() {
+  function openReviewModal(id) {
+    setSelectedEquipmentId(id);
     setReviewModalIsOpen(true);
   }
   function closeReviewModal() {
     setReviewModalIsOpen(false);
   }
-  const booking = bookings.map(b => (
-    <div className='row' style={{ border: 'dashed 1px black' }}>
+  const booking = !!bookings && bookings.map(b => (
+    <div key={b.id} className='row' style={{ border: 'dashed 1px black' }}>
       <div className='column'>
         <img className='bookingsPic' src={b.equipment.pictures}></img>
       </div>
       <div className='column'>
-
         <h3 style={{ textAlign: "center", marginTop: '2em' }}>{b.equipment.name}</h3>
         <h3 style={{ textAlign: "center" }}>Location: {b.location}</h3>
         <h3 style={{ textAlign: "center" }}>Dates: {b.start_date} - {b.end_date}</h3>
         <div>
-          <Button type='primary' style={{ marginLeft: 'auto', marginRight: 'auto', display: 'block' }} onClick={openModal}>Cancel Rental</Button>
+          <Button type='primary' style={{ marginLeft: 'auto', marginRight: 'auto', display: 'block' }} onClick={() => {openModal(b.id)}}>Cancel Rental</Button>
         </div>
         <br />
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel='Rent equipment'>
-          <CancelRent equipment_id={b.equipment.id} />
-        </Modal>
-        <Button type='primary' style={{ marginLeft: 'auto', marginRight: 'auto', display: 'block' }} onClick={openReviewModal}>Leave a review</Button>
+        <Button type='primary' style={{ marginLeft: 'auto', marginRight: 'auto', display: 'block' }} onClick={() => {openReviewModal(b.equipment.id)}}>Leave a review</Button>
         <br />
-        <Modal
-          isOpen={reviewModalIsOpen}
-          onRequestClose={closeReviewModal}
-          style={customStyles}
-          contentLabel='Rent equipment'>
-          <CreateReview equipment_id={b.equipment.id} />
-        </Modal>
       </div>
     </div>
   ))
-
   return (
     <div>
       <h2 className='h2Bookings'>Details of your bookings:</h2>
       {booking}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel='Cancel Rent equipment'>
+        {!!selectedBookingId && <CancelRent rent_id={selectedBookingId} />}
+      </Modal>
+      <Modal
+        isOpen={reviewModalIsOpen}
+        onRequestClose={closeReviewModal}
+        style={customStyles}
+        contentLabel='Rent equipment'>
+        {!!selectedEquipmentId && <CreateReview equipment_id={selectedEquipmentId} />}
+      </Modal>
     </div>
   )
 }

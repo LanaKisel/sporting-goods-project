@@ -1,21 +1,21 @@
 // https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery#basic-usage
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react'
 
 export const sportingGoodsApi = createApi({
   // Set the baseUrl for every endpoint below
-  baseQuery: fetchBaseQuery({
+  baseQuery: retry(fetchBaseQuery({
     baseUrl: '/',
     //https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery#setting-default-headers-on-requests
     prepareHeaders: async (headers, { getState }) => {
       let accessToken = getState().user.value.token;
-      
+
       if (!!accessToken) {
         headers.set('authorization', `Bearer ${accessToken}`)
       }
 
       return headers
     },
-  }),
+  }), { maxRetries: 3 }),
   endpoints: (builder) => ({
     getCurrentUser: builder.query({
       query: () => `users/me`,
@@ -62,24 +62,42 @@ export const sportingGoodsApi = createApi({
     }),
     createRental: builder.mutation({
       query: (body) => ({
-        url: `rentals`,
+        url: `/rentals`,
         method: 'POST',
-
         body: body,
       }),
-    })
+      invalidatesTags: ['Rental'],
+    }),
+    getRentalById: builder.query({
+      query: (rental_id) => `/rentals/${rental_id}`,
+      providesTags: ['Rental']
+    }),
+    deleteRentalById: builder.mutation({
+      query: (rental_id) => ({
+        url: `/rentals/${rental_id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Rental'],
+    }),
+    getRentals: builder.query({
+      query: () => `/rentals`,
+      providesTags: ['Rental']
+    }),
   }),
 })
 
-export const { 
-  useGetCurrentUserQuery, 
-  useGetUserByNameQuery, 
-  useCreateUserMutation, 
-  useGetCategoriesQuery, 
-  useGetCategoryByNameQuery, 
-  useCreateCategoryMutation, 
-  useGetEquipmentsByCategoryQuery, 
+export const {
+  useGetCurrentUserQuery,
+  useGetUserByNameQuery,
+  useCreateUserMutation,
+  useGetCategoriesQuery,
+  useGetCategoryByNameQuery,
+  useCreateCategoryMutation,
+  useGetEquipmentsByCategoryQuery,
   useGetEquipmentByIdQuery,
   useGetEquipmentReviewsByEquipmentIdQuery,
-  useCreateRentalMutation
+  useCreateRentalMutation,
+  useGetRentalByIdQuery,
+  useDeleteRentalByIdMutation,
+  useGetRentalsQuery,
 } = sportingGoodsApi
