@@ -83,6 +83,14 @@ export const sportingGoodsApi = createApi({
       query: () => `/rentals`,
       providesTags: ['Rental']
     }),
+    createReview: builder.mutation({
+      query: (body) => ({
+        url: `/reviews`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['Reviews'],
+    }),
   }),
 })
 
@@ -100,4 +108,5 @@ export const {
   useGetRentalByIdQuery,
   useDeleteRentalByIdMutation,
   useGetRentalsQuery,
+  useCreateReviewMutation,
 } = sportingGoodsApi

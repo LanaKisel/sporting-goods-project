@@ -190,13 +190,14 @@ class Reviews(Resource):
     def get(self):
         review = [review.to_dict() for review in Review.query.all()]
         return make_response(review, 200)
+    @require_auth(None)
     def post(self):
         data = request.get_json()
         try:
             new_review = Review(
                 text =data['text'],
                 photos = data.get('photos', None),
-                user_id = data['user_id'],
+                user_id = getCurrentUserId(),
                 equipment_id = data['equipment_id']
             )
             db.session.add(new_review)   
