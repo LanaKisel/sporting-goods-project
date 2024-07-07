@@ -17,23 +17,22 @@ export const sportingGoodsApi = createApi({
     },
   }), { maxRetries: 3 }),
   endpoints: (builder) => ({
+    /*
+      USERS
+    */
+    getUsers: builder.query({
+      query: () => `users`,
+    }),
     getCurrentUser: builder.query({
       query: () => `users/me`,
     }),
     getUserByName: builder.query({
       query: (name) => `users/${name}`,
     }),
-    createUser: builder.mutation({
-      query: ({ body }) => ({
-        url: `users`,
-        // When performing a mutation, you typically use a method of
-        // PATCH/PUT/POST/DELETE for REST endpoints
-        method: 'POST',
-        // fetchBaseQuery automatically adds `content-type: application/json` to
-        // the Headers and calls `JSON.stringify(patch)`
-        body: body,
-      }),
-    }),
+
+    /*
+      CATEGORIES
+    */
     getCategories: builder.query({
       query: () => `categories`,
     }),
@@ -43,22 +42,56 @@ export const sportingGoodsApi = createApi({
     createCategory: builder.mutation({
       query: ({ body }) => ({
         url: `categories`,
-        // When performing a mutation, you typically use a method of
-        // PATCH/PUT/POST/DELETE for REST endpoints
         method: 'POST',
-        // fetchBaseQuery automatically adds `content-type: application/json` to
-        // the Headers and calls `JSON.stringify(patch)`
         body: body,
       }),
     }),
-    getEquipmentsByCategory: builder.query({
-      query: (category_id) => `/equipments/category/${category_id}`,
+
+    /*
+      EQUIPMENTS
+    */
+    getEquipments: builder.query({
+      query: (category_id) => `/equipments`,
+      providesTags: ['Equipment']
+    }),
+    createEquipment: builder.mutation({
+      query: (body) => ({
+        url: `/equipments`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['Equipment'],
     }),
     getEquipmentById: builder.query({
       query: (equipment_id) => `/equipments/${equipment_id}`,
+      providesTags: ['Equipment']
     }),
-    getEquipmentReviewsByEquipmentId: builder.query({
-      query: (equipment_id) => `/equipments/${equipment_id}/reviews`
+    updateEquipment: builder.mutation({
+      query: (equipment_id, body) => ({
+        url: `/equipments/${equipment_id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['Rental'],
+    }),
+    deleteEquipment: builder.mutation({
+      query: (equipment_id) => ({
+        url: `/equipments/${equipment_id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Rental'],
+    }),
+    getEquipmentsByCategory: builder.query({
+      query: (category_id) => `/equipments/category/${category_id}`,
+      providesTags: ['Equipment']
+    }),
+    
+    /*
+      RENTALS
+    */
+    getRentals: builder.query({
+      query: () => `/rentals`,
+      providesTags: ['Rental']
     }),
     createRental: builder.mutation({
       query: (body) => ({
@@ -72,16 +105,27 @@ export const sportingGoodsApi = createApi({
       query: (rental_id) => `/rentals/${rental_id}`,
       providesTags: ['Rental']
     }),
-    deleteRentalById: builder.mutation({
+    updateRental: builder.mutation({
+      query: (rental_id, body) => ({
+        url: `/rentals/${rental_id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['Rental'],
+    }),
+    deleteRental: builder.mutation({
       query: (rental_id) => ({
         url: `/rentals/${rental_id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Rental'],
     }),
-    getRentals: builder.query({
-      query: () => `/rentals`,
-      providesTags: ['Rental']
+    /*
+      REVIEWS
+    */
+    getReviews: builder.query({
+      query: () => `/reviews`,
+      providesTags: ['Review']
     }),
     createReview: builder.mutation({
       query: (body) => ({
@@ -89,24 +133,55 @@ export const sportingGoodsApi = createApi({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: ['Reviews'],
+      invalidatesTags: ['Review'],
+    }),
+    getReviewById: builder.query({
+      query: (review_id) => `/reviews/${review_id}`,
+      providesTags: ['Review']
+    }),
+    updateReview: builder.mutation({
+      query: (review_id, body) => ({
+        url: `/reviews/${review_id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['Review'],
+    }),
+    deleteReview: builder.mutation({
+      query: (review_id) => ({
+        url: `/reviews/${review_id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Review'],
+    }),
+    getReviewsByEquipmentId: builder.query({
+      query: (equipment_id) => `/equipments/${equipment_id}/reviews`,
+      providesTags: ['Review', 'Equipment']
     }),
   }),
 })
 
 export const {
+  useGetUsersQuery,
   useGetCurrentUserQuery,
   useGetUserByNameQuery,
-  useCreateUserMutation,
   useGetCategoriesQuery,
   useGetCategoryByNameQuery,
   useCreateCategoryMutation,
-  useGetEquipmentsByCategoryQuery,
+  useGetEquipmentsQuery,
   useGetEquipmentByIdQuery,
-  useGetEquipmentReviewsByEquipmentIdQuery,
+  useUpdateEquipmentMutation,
+  useDeleteEquipmentMutation,
+  useGetEquipmentsByCategoryQuery,
+  useGetRentalsQuery,
   useCreateRentalMutation,
   useGetRentalByIdQuery,
-  useDeleteRentalByIdMutation,
-  useGetRentalsQuery,
+  useUpdateRentalMutation,
+  useDeleteRentalMutation,
+  useGetReviewsQuery,
   useCreateReviewMutation,
+  useGetReviewByIdQuery,
+  useUpdateReviewMutation,
+  useDeleteReviewMutation,
+  useGetReviewsByEquipmentIdQuery
 } = sportingGoodsApi

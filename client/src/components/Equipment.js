@@ -8,7 +8,7 @@ import {gray} from '@ant-design/colors';
 
 import { useSelector } from 'react-redux'
 import { skipToken } from '@reduxjs/toolkit/query/react'
-import { useGetEquipmentByIdQuery, useGetEquipmentReviewsByEquipmentIdQuery, useGetCurrentUserQuery } from "../services/sportingGoodsApi"
+import { useGetEquipmentByIdQuery, useGetReviewsByEquipmentIdQuery, useGetCurrentUserQuery } from "../services/sportingGoodsApi"
 
 const customStyles = {
     content: {
@@ -26,7 +26,7 @@ Modal.setAppElement('#root');
 const Equipment = () => {
     let { id } = useParams()
     const { data: equipment } = useGetEquipmentByIdQuery(id ?? skipToken)
-    const { data: reviews = [] } = useGetEquipmentReviewsByEquipmentIdQuery(equipment?.id ?? skipToken)
+    const { data: reviews = [] } = useGetReviewsByEquipmentIdQuery(equipment?.id ?? skipToken)
     
     const token = useSelector((state) => state.user.value.token)
     const { data: currUser, isLoading: currUserIsLoading } = useGetCurrentUserQuery(token ?? skipToken)
