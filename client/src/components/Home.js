@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react'
-import { EquipmentsContext, EquipmentsProvider } from "./Context";
 import { useHistory } from "react-router-dom"
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 

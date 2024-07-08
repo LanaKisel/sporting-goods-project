@@ -6,7 +6,6 @@ import Profile from "./profile";
 import Home from "./Home";
 import Equipment from "./Equipment";
 import './App.css';
-import { EquipmentsProvider } from "./Context";
 import { BrowserRouter as Router } from 'react-router-dom';
 // import { Router } from "react-router-dom";
 import Navigation from "./Navigation";
@@ -48,7 +47,6 @@ function App() {
 
   return (
     <ConfigProvider theme={{ token: { colorPrimary: gray.primary, }, }}>
-      <EquipmentsProvider>
         <Router>
           <Navigation />
           {(!!currUser ? <div style={{ display: 'flex' }}><LogoutButton /><Profile /></div> : (!isAuthenticated && !isLoading ? <LoginButton /> : <></>))}
@@ -76,7 +74,6 @@ function App() {
             </Switch>
           </div>
         </Router>
-      </EquipmentsProvider>
     </ConfigProvider>
   );
 }

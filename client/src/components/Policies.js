@@ -14,7 +14,7 @@ const Policies = () => {
                 <p>
                     - We reserve the right to amend these policies without prior notice.
                     <br />
-                    - For any questions or assistance regarding your rental reservation, please contact our customer service team at <href>sportinggoods.@gmail.com</href> .
+                    - For any questions or assistance regarding your rental reservation, please contact our customer service team at sportinggoods.@gmail.com.
                     <br />
                 </p>
                 <h3>Terms and Conditions:</h3>

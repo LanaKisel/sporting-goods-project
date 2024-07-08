@@ -1,8 +1,3 @@
-
-/////////////
-/////////
-///////////////////need user//////////////////
-
 import { useState, useEffect } from 'react'
 import Modal from 'react-modal'
 import { Button } from 'antd';
