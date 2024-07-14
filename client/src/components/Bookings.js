@@ -51,7 +51,7 @@ const Bookings = () => {
       </div>
       <div className='column'>
         <h3 style={{ textAlign: "center", marginTop: '2em' }}>{b.equipment.name}</h3>
-        <h3 style={{ textAlign: "center" }}>Location: {b.location}</h3>
+        <h3 style={{ textAlign: "center" }}>Location: {b.equipment.location}</h3>
         <h3 style={{ textAlign: "center" }}>Dates: {b.start_date} - {b.end_date}</h3>
         <div>
           <Button type='primary' style={{ marginLeft: 'auto', marginRight: 'auto', display: 'block' }} onClick={() => {openModal(b.id)}}>Cancel Rental</Button>

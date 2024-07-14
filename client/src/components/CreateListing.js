@@ -18,7 +18,7 @@ const getBase64 = (file) =>
         reader.onerror = (error) => reject(error);
     });
 
-const CreateListing = ({ equipment_id }) => {
+const CreateListing = () => {
     const [createListing, { isSuccess: createListingIsSuccess, isError: createListingIsError, data: createListingResponse }] = useCreateEquipmentMutation()
     const { data: categories } = useGetCategoriesQuery();
 
