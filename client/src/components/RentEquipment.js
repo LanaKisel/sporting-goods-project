@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from "react-router-dom"
 import DatePicker from "react-datepicker";
 import { useFormik } from 'formik';
@@ -10,10 +10,12 @@ import { skipToken } from '@reduxjs/toolkit/query/react'
 import { useGetEquipmentByIdQuery, useGetCurrentUserQuery, useCreateRentalMutation } from "../services/sportingGoodsApi"
 
 const RentEquipment = ({ equipment_id }) => {
+    let history = useHistory();
+
     const { data: equipment } = useGetEquipmentByIdQuery(equipment_id ?? skipToken)
     const [createRental, { isSuccess: createRentalIsSuccess, isError: createRentalIsError, data: createRentalResponse }] = useCreateRentalMutation()
     const token = useSelector((state) => state.user.value.token)
-    const { data: currUser, isLoading: currUserIsLoading } = useGetCurrentUserQuery(token ?? skipToken)
+    const { data: currUser } = useGetCurrentUserQuery(token ?? skipToken)
 
     useEffect(() => {
         if (createRentalIsError) {
@@ -21,9 +23,8 @@ const RentEquipment = ({ equipment_id }) => {
         } else if (createRentalIsSuccess && !!createRentalResponse) {
             history.push(`/rentals/${createRentalResponse.id}`)
         }
-    }, [createRentalResponse, createRentalIsSuccess, createRentalIsError])
+    }, [createRentalResponse, createRentalIsSuccess, createRentalIsError, history])
 
-    let history = useHistory();
     const formSchema = Yup.object().shape({
         start_date: Yup
             .date()
@@ -60,7 +61,7 @@ const RentEquipment = ({ equipment_id }) => {
     const rentForm = () => {
         return (<form onSubmit={formik.handleSubmit}>
             <p>Hi {currUser?.name},</p>
-            <p>Please enter date and time to rent this equipment</p>
+            <p>Please enter date and time to rent '{!!equipment && equipment.name}'</p>
             <label>Dates:</label>
             <div>{(formik.errors.start_date) ? <p style={{ color: 'red' }}>{formik.errors.start_date}</p> : null}</div>
             <div>{(formik.errors.end_date) ? <p style={{ color: 'red' }}>{formik.errors.end_date}</p> : null}</div>

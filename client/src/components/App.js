@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import LoginButton from "./login";
 import LogoutButton from "./logout";
@@ -7,13 +7,10 @@ import Home from "./Home";
 import Equipment from "./Equipment";
 import './App.css';
 import { BrowserRouter as Router } from 'react-router-dom';
-// import { Router } from "react-router-dom";
 import Navigation from "./Navigation";
 import EquipmentByCategory from "./EquipmentByCategory";
 import EqRented from "./EqRented";
 import RentEquipment from "./RentEquipment";
-import UpdateRent from "./UpdateRent";
-import CancelRent from "./CancelRent";
 import Bookings from "./Bookings";
 import Policies from "./Policies";
 import Listings from "./Listings";
@@ -22,7 +19,6 @@ import { setToken } from '../userSlice'
 import { useAuth0 } from "@auth0/auth0-react";
 import { ConfigProvider } from 'antd';
 import { gray } from '@ant-design/colors';
-import Header from "./Header";
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import { useGetCurrentUserQuery } from "../services/sportingGoodsApi"
 
@@ -44,7 +40,7 @@ function App() {
         })
       }
     }
-  }, [isAuthenticated, token, currUser])
+  }, [isAuthenticated, token, currUser, dispatch, getAccessTokenSilently])
 
   return (
     <ConfigProvider theme={{ token: { colorPrimary: gray.primary, }, }}>

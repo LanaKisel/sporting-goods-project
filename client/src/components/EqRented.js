@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { format } from 'date-fns'
 import Modal from 'react-modal'
 import UpdateRent from './UpdateRent';
 import CancelRent from './CancelRent';
@@ -27,10 +26,9 @@ const EqRented = () => {
     fetch(`/rentals/${id}`)
       .then(r => r.json())
       .then(data => (
-        console.log(data),
         setRent(data)
       ))
-  }, [])
+  }, [id])
   // console.log(rent.equipment.name, rent.equipment)
   const [updateModalIsOpen, setUpdateIsOpen] = React.useState(false);
   const [cancelModalIsOpen, setCancelIsOpen] = React.useState(false);

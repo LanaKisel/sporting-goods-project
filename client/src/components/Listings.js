@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Modal from 'react-modal'
 import { Button, Spin } from 'antd';
 import EquipmentPictures from './EquipmentPictures';
@@ -77,7 +77,7 @@ const Listings = () => {
             }} />
           </GoogleMap> : <></>
         }
-        <h3 style={{ textAlign: "center", marginTop: '2em' }}>{!!categories && categories.filter(c => c.id == e.category_id)[0].category_name}</h3>
+        <h3 style={{ textAlign: "center", marginTop: '2em' }}>{!!categories && categories.filter(c => c.id === e.category_id)[0].category_name}</h3>
         <h3 style={{ textAlign: "center", marginTop: '2em' }}>{e.location}</h3>
         <div style={{ display: 'block', textAlign: 'center' }}>
           <Button type='primary' style={{ marginLeft: 'auto', marginRight: 'auto', display: 'block' }} onClick={() => { openUpdateListingModal(e.id) }}>Update Listing</Button>

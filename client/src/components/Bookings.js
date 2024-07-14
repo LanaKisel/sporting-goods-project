@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Modal from 'react-modal'
 import { Button } from 'antd';
 import CancelRent from './CancelRent';
 import CreateReview from './CreateReview';
 import EquipmentPictures from './EquipmentPictures';
 
-import { skipToken } from '@reduxjs/toolkit/query/react'
 import { useGetRentalsQuery } from "../services/sportingGoodsApi"
 
 const customStyles = {

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 const MyProfile = () => {
   const token = useSelector((state) => state.user.value.token);
@@ -30,4 +30,4 @@ const MyProfile = () => {
   )
 }
 
-export default Bookings
+export default MyProfile

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useHistory } from "react-router-dom"
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -19,7 +19,7 @@ const getBase64 = (file) =>
     });
 
 const CreateListing = () => {
-    const [createListing, { isSuccess: createListingIsSuccess, isError: createListingIsError, data: createListingResponse }] = useCreateEquipmentMutation()
+    const [createListing] = useCreateEquipmentMutation()
     const { data: categories } = useGetCategoriesQuery();
 
     /* start fileupload */

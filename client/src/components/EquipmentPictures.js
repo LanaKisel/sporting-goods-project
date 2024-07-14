@@ -20,7 +20,7 @@ const EquipmentPictures = ({ pictures, maxWidth = "30vw" }) => {
         <div style={{maxWidth: maxWidth}}>
             <Carousel arrows infinite={false} adaptiveHeight>
                 {
-                    !pictures || pictures.length == 0 || (picturesIsJson && picturesObj.length == 0)
+                    !pictures || pictures.length === 0 || (picturesIsJson && picturesObj.length === 0)
                         ? // there are no pictures (undefined, empty string, or empty array (json))
                         <div style={
                             {

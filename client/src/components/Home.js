@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Header from './Header';
 import variables from '../Variables';
-import { GoogleMap, Marker, useJsApiLoader, InfoBox, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, Marker, useJsApiLoader, InfoWindow } from '@react-google-maps/api';
 import { useGetCategoriesQuery, useGetEquipmentsForMapQuery, useGetEquipmentByIdQuery } from "../services/sportingGoodsApi"
 import { Button, Spin, Row, Col } from 'antd';
 import { skipToken } from '@reduxjs/toolkit/query';
@@ -11,7 +11,7 @@ import LocationSearchInput from "./LocationSearchInput"
 
 const Home = () => {
     const { data: categories } = useGetCategoriesQuery();
-    const { data: equipments, isLoading: equipmentsIsLoading } = useGetEquipmentsForMapQuery();
+    const { data: equipments } = useGetEquipmentsForMapQuery();
 
     const [userLocation, setUserLocation] = useState({ lat: 0, lng: 0 });
     const [userAddress, setUserAddress] = useState("");
@@ -98,7 +98,7 @@ const Home = () => {
                                     {!!equipment && !!categories &&
                                         <>
                                             <div style={{ display: "block" }}><Link to={`/equipments/${e.id}`}>{equipment.name}</Link></div>
-                                            <span>{categories.filter(c => c.id == equipment.category_id)[0].category_name}</span>
+                                            <span>{categories.filter(c => c.id === equipment.category_id)[0].category_name}</span>
                                             <span>Rent price : ${equipment.rent_price}.00</span>
                                             <EquipmentPictures pictures={equipment.pictures} maxWidth='120px' />
                                         </>

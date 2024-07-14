@@ -24,29 +24,65 @@ const getBase64 = (file) =>
     });
 
 const UpdateListing = ({ equipment_id }) => {
+    let history = useHistory();
+
     const [updateListing, { isLoading: updateListingIsLoading }] = useUpdateEquipmentMutation()
     const { data: categories } = useGetCategoriesQuery();
     const { data: equipment, isLoading: equipmentIsLoading } = useGetEquipmentByIdQuery(equipment_id ?? skipToken);
 
-    useEffect(() => {
-        if (!!equipment) {
-            formik.setFieldValue('name', equipment.name, true);
-            formik.setFieldValue('pictures', equipment.pictures, true);
-            formik.setFieldValue('rent_price', equipment.rent_price, true);
-            formik.setFieldValue('location', equipment.location, true);
-            formik.setFieldValue('category_id', equipment.category_id, true);
-            formik.setFieldValue('latitude', equipment.latitude, true);
-            formik.setFieldValue('longitude', equipment.longitude, true);
-            setTimeout(() => formik.setFieldTouched('longitude', true));
-            let newFileList = {fileList: []};
-            try {
-                newFileList = { fileList: JSON.parse(equipment.pictures) };
-            } catch {}
-            
-            handleChange(newFileList)
-        }
-    }, [equipment])
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            pictures: '',
+            rent_price: 10.00,
+            location: '',
+            category_id: undefined,
+            latitude: undefined,
+            longitude: undefined
+        },
+        validationSchema: Yup.object().shape({
+            name: Yup
+                .string()
+                .required("Enter a name for the item you are listing")
+                .max(250, ''),
+            pictures: Yup
+                .string()
+                .required("Provide at least one picture")
+                .min(3, "Provide at least one picture"), // empty array is "[]" len 2
+            rent_price: Yup
+                .number()
+                .required()
+                .min(10),
+            location: Yup
+                .string()
+                .required("Specify a location")
+                .max(250, ''),
+            category_id: Yup
+                .number()
+                .required("Select a category")
+                .integer(),
+            latitude: Yup
+                .number()
+                .required("Specify a location"),
+            longitude: Yup
+                .number()
+                .required("Specify a location"),
+        }),
+        onSubmit: async (values) => {
+            let formdata = structuredClone(formik.values)
 
+            try {
+                const payload = await updateListing({ equipment_id: equipment_id, body: formdata }).unwrap();
+                if (!payload.errors && !!payload.id) {
+                    history.go(0)
+                } else {
+                    alert('Listing data has no id or has errors')
+                }
+            } catch (error) {
+                alert('Listing data has errors')
+            }
+        },
+    })
 
     /* start fileupload */
     const [previewOpen, setPreviewOpen] = useState(false);
@@ -94,62 +130,31 @@ const UpdateListing = ({ equipment_id }) => {
     );
     /* end fileupload */
 
-    let history = useHistory();
-
-    const formSchema = Yup.object().shape({
-        name: Yup
-            .string()
-            .required("Enter a name for the item you are listing")
-            .max(250, ''),
-        pictures: Yup
-            .string()
-            .required("Provide at least one picture")
-            .min(3, "Provide at least one picture"), // empty array is "[]" len 2
-        rent_price: Yup
-            .number()
-            .required()
-            .min(10),
-        location: Yup
-            .string()
-            .required("Specify a location")
-            .max(250, ''),
-        category_id: Yup
-            .number()
-            .required("Select a category")
-            .integer(),
-        latitude: Yup
-            .number()
-            .required("Specify a location"),
-        longitude: Yup
-            .number()
-            .required("Specify a location"),
-    })
-    const formik = useFormik({
-        initialValues: {
-            name: '',
-            pictures: '',
-            rent_price: 10.00,
-            location: '',
-            category_id: undefined,
-            latitude: undefined,
-            longitude: undefined
-        },
-        validationSchema: formSchema,
-        onSubmit: async (values) => {
-            let formdata = structuredClone(formik.values)
-
+    
+    useEffect(() => {
+        if (!!equipment) {
+            formik.setFieldValue('name', equipment.name, true);
+            formik.setFieldValue('pictures', equipment.pictures, true);
+            formik.setFieldValue('rent_price', equipment.rent_price, true);
+            formik.setFieldValue('location', equipment.location, true);
+            formik.setFieldValue('category_id', equipment.category_id, true);
+            formik.setFieldValue('latitude', equipment.latitude, true);
+            formik.setFieldValue('longitude', equipment.longitude, true);
+            setTimeout(() => formik.setFieldTouched('longitude', true));
+            let newFileList = { fileList: [] };
             try {
-                const payload = await updateListing({ equipment_id: equipment_id, body: formdata }).unwrap();
-                if (!payload.errors && !!payload.id) {
-                    history.go(0)
-                } else {
-                    alert('Listing data has no id or has errors')
-                }
-            } catch (error) {
-                alert('Listing data has errors')
-            }
-        },
-    })
+                newFileList = { fileList: JSON.parse(equipment.pictures) };
+            } catch { }
+
+            handleChange(newFileList)
+        }
+    // eslint-disable-next-line
+    }, [equipment])
+
+   
+
+    
+
 
     /* start address */
     const handleAddressChange = address => {

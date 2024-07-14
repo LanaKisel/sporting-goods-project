@@ -1,18 +1,4 @@
-import React, { useState } from 'react';
-import {
-    MDBNavbar,
-    MDBNavbarNav,
-    MDBNavbarItem,
-    MDBNavbarLink,
-    MDBNavbarToggler,
-    MDBContainer,
-    MDBIcon,
-    MDBCollapse,
-    MDBBtn
-} from 'mdb-react-ui-kit';
-import Navigation from './Navigation';
 const Header = () => {
-    const [showBasic, setShowBasic] = useState(false);
     return (
         <div>
             <header>              

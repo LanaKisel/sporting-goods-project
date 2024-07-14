@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Modal from 'react-modal'
 import RentEquipment from './RentEquipment';
 import Review from './Review';
 import EquipmentPictures from './EquipmentPictures';
 import { Button } from 'antd';
-import {gray} from '@ant-design/colors';
 
 import { useSelector } from 'react-redux'
 import { skipToken } from '@reduxjs/toolkit/query/react'
@@ -43,10 +42,6 @@ const Equipment = () => {
         setIsOpen(false);
     }
 
-    function handleClick(){
-        console.log("Button here")
-    }
-
     return (
         !equipment ? <></> :
         <div>
@@ -57,7 +52,7 @@ const Equipment = () => {
             <h2 style = {{marginLeft: 20}}>Rent price : ${equipment.rent_price}.00</h2>
             {review}
             <br/>
-            <Button style = {{marginLeft: 20, marginBottom: 20}} type='primary' onClick={openModal} disabled={currUser == undefined}>Click to rent</Button>{currUser == undefined && !currUserIsLoading && <span style={{marginLeft: '1em'}}>Login to rent</span>}    
+            <Button style = {{marginLeft: 20, marginBottom: 20}} type='primary' onClick={openModal} disabled={currUser === undefined}>Click to rent</Button>{currUser === undefined && !currUserIsLoading && <span style={{marginLeft: '1em'}}>Login to rent</span>}    
             <br/>       
             {/* <button onClick={openModal}>Click to rent</button> */}
             <Modal

@@ -1,5 +1,5 @@
 // https://github.com/ant-design/ant-design/issues/8894#issuecomment-2063571305
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Input } from "antd"
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import variables from "../Variables"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from "react-router-dom"
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -6,22 +6,22 @@ import { skipToken } from '@reduxjs/toolkit/query/react'
 import { useGetRentalByIdQuery, useDeleteRentalMutation } from "../services/sportingGoodsApi"
 
 const CancelRent = ({ rent_id }) => {
-    console.log(rent_id)
+    let history = useHistory();
+
     const { data: rent } = useGetRentalByIdQuery(rent_id ?? skipToken)
     const [deleteRental, { isSuccess: deleteRentalIsSuccess, isError: deleteRentalIsError, data: deleteRentalResponse }] = useDeleteRentalMutation()
 
     useEffect(() => {
-        console.log("CancelRent.js - deleteRentalResponse", deleteRentalResponse)
         if (deleteRentalIsSuccess) { history.push(`/equipments/${rent.equipment_id}`) }
         else if (deleteRentalIsError) {
             history.go(0);
         }
-    }, [deleteRentalIsSuccess, deleteRentalIsError, deleteRentalResponse])
+    }, [deleteRentalIsSuccess, deleteRentalIsError, deleteRentalResponse, history, rent.equipment_id])
 
-    let history = useHistory();
     function handleDelete() {
         deleteRental(rent_id)
     }
+    
     return (
         !rent ? <></> :
             <div>
