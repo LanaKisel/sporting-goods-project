@@ -162,6 +162,11 @@ class EquipmentByCategoryId(Resource):
         equipment = [equipment.to_dict() for equipment in Equipment.query.filter(Equipment.category_id== category_id).all()]
         return make_response(equipment, 200)   
 api.add_resource(EquipmentByCategoryId, '/equipments/category/<int:category_id>')       
+class EquipmentsForMap(Resource):
+    def get(self):
+        equipment = [equipment.to_dict(only=('id', 'name', 'location', 'latitude', 'longitude')) for equipment in Equipment.query.all()]
+        return make_response(equipment, 200)
+api.add_resource(EquipmentsForMap, '/equipments-map')     
 
 class Categories(Resource):
     def get(self):

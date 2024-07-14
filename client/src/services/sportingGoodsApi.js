@@ -51,7 +51,7 @@ export const sportingGoodsApi = createApi({
       EQUIPMENTS
     */
     getEquipments: builder.query({
-      query: (category_id) => `/equipments`,
+      query: () => `/equipments`,
       providesTags: ['Equipment']
     }),
     createEquipment: builder.mutation({
@@ -85,7 +85,10 @@ export const sportingGoodsApi = createApi({
       query: (category_id) => `/equipments/category/${category_id}`,
       providesTags: ['Equipment']
     }),
-    
+    getEquipmentsForMap: builder.query({
+      query: () => `/equipments-map`,
+      providesTags: ['Equipment', 'Map']
+    }),
     /*
       RENTALS
     */
@@ -174,6 +177,7 @@ export const {
   useUpdateEquipmentMutation,
   useDeleteEquipmentMutation,
   useGetEquipmentsByCategoryQuery,
+  useGetEquipmentsForMapQuery,
   useGetRentalsQuery,
   useCreateRentalMutation,
   useGetRentalByIdQuery,
