@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import Modal from 'react-modal'
 import UpdateRent from './UpdateRent';
 import CancelRent from './CancelRent';
+import EquipmentPictures from './EquipmentPictures';
 import { Button } from 'antd';
 
 Modal.setAppElement('#root');
@@ -54,7 +55,9 @@ const EqRented = () => {
       <h2 style={{ textAlign: 'center' }}>Here're the details of your rental:</h2>
       <div className='row'>
         <div className='column'>
-          {!!rent && !!rent.equipment && <img className='bookingsPic' src={rent.equipment.pictures}></img>}
+          {!!rent && !!rent.equipment && <div className="equipment_pic">
+              <EquipmentPictures pictures={rent.equipment.pictures} />
+            </div>}
         </div>
         <div className='column'>
           {!!rent && !!rent.name && <h3 style={{ textAlign: "center" }}>{rent.equipment.name}</h3>}

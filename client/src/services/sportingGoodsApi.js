@@ -15,7 +15,7 @@ export const sportingGoodsApi = createApi({
 
       return headers
     },
-  }), { maxRetries: 3 }),
+  }), { maxRetries: 5 }),
   endpoints: (builder) => ({
     /*
       USERS
@@ -169,6 +169,7 @@ export const {
   useGetCategoryByNameQuery,
   useCreateCategoryMutation,
   useGetEquipmentsQuery,
+  useCreateEquipmentMutation,
   useGetEquipmentByIdQuery,
   useUpdateEquipmentMutation,
   useDeleteEquipmentMutation,

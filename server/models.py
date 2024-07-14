@@ -41,6 +41,9 @@ class Equipment(db.Model, SerializerMixin):
     name= db.Column(db.String)
     pictures = db.Column(db.String) 
     rent_price = db.Column(db.Integer)
+    location = db.Column(db.String)
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
     ##relationship
@@ -77,7 +80,6 @@ class Rental(db.Model, SerializerMixin):
     serialize_rules=('-user.rentals', '-equipment.rentals',)
 
     id = db.Column(db.Integer, primary_key= True)
-    location = db.Column(db.String)
     start_date = db.Column(db.Date)
     end_date = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -88,4 +90,4 @@ class Rental(db.Model, SerializerMixin):
     equipment = db.relationship('Equipment', back_populates='rentals')
 
     def __repr__(self):
-        return f'<Rental {self.id}: {self.location}, {self.start_date}, {self.end_date}>'
+        return f'<Rental {self.id}: {self.start_date}, {self.end_date}>'

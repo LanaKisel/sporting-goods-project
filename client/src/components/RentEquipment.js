@@ -25,10 +25,6 @@ const RentEquipment = ({ equipment_id }) => {
 
     let history = useHistory();
     const formSchema = Yup.object().shape({
-        location: Yup
-            .string()
-            .required("Location must be specified")
-            .max(60, ''),
         start_date: Yup
             .date()
             .required('Rent Start Date must be specified')
@@ -41,7 +37,6 @@ const RentEquipment = ({ equipment_id }) => {
     const formik = useFormik({
         initialValues: {
             equipment_id: equipment_id,
-            location: '',
             start_date: '',
             end_date: ''
         },
@@ -65,11 +60,7 @@ const RentEquipment = ({ equipment_id }) => {
     const rentForm = () => {
         return (<form onSubmit={formik.handleSubmit}>
             <p>Hi {currUser?.name},</p>
-            <p>Please enter location, date and time to rent this equipment</p>
-            <label>Location:</label>
-            <div>{(formik.errors.location) ? <p style={{ color: 'red' }}>{formik.errors.location}</p> : null}</div>
-            <input type="text" name="location" value={formik.values.location} onChange={formik.handleChange}></input>
-            <br />
+            <p>Please enter date and time to rent this equipment</p>
             <label>Dates:</label>
             <div>{(formik.errors.start_date) ? <p style={{ color: 'red' }}>{formik.errors.start_date}</p> : null}</div>
             <div>{(formik.errors.end_date) ? <p style={{ color: 'red' }}>{formik.errors.end_date}</p> : null}</div>

@@ -16,6 +16,7 @@ import UpdateRent from "./UpdateRent";
 import CancelRent from "./CancelRent";
 import Bookings from "./Bookings";
 import Policies from "./Policies";
+import Listings from "./Listings";
 import { useSelector, useDispatch } from 'react-redux'
 import { setToken } from '../userSlice'
 import { useAuth0 } from "@auth0/auth0-react";
@@ -68,6 +69,9 @@ function App() {
             </Switch>
             <Switch>
               <Route exact path='/mybookings'>{<Bookings />}</Route>
+            </Switch>
+            <Switch>
+              <Route exact path='/mylistings'>{<Listings />}</Route>
             </Switch>
             <Switch>
               <Route exact path='/terms&conditions'>{<Policies />}</Route>

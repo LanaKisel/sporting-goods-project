@@ -10,14 +10,12 @@ const UpdateRent = ({rent_id}) => {
         fetch(`/rentals/${rent_id}`)
         .then(r=>r.json())
         .then(data=>(
-            formik.setFieldValue('location', data.location, false),
             formik.setFieldValue('start_date', new Date(data.start_date), false),
             formik.setFieldValue('end_date', new Date(data.end_date), false)
         ))
     }, [])
     let history=useHistory();
     const formSchema = Yup.object().shape({
-        location: Yup.string().required("Name cannot be empty").max(60),
         start_date: Yup.date().min(new Date(), 'Rental date must be in the future.'),
         end_date: Yup.date().min(new Date(), 'Rental date must be in the future.')
     });
@@ -55,17 +53,12 @@ const UpdateRent = ({rent_id}) => {
     const onChange = (dates) => {
         const [start, end] = dates;
         formik.setFieldValue('start_date', start)
-        formik.setFieldValue('end_date', end)
-        
+        formik.setFieldValue('end_date', end)    
     };
   return (
     <div>
         <h1>Update photoshoot</h1>
             <form onSubmit={formik.handleSubmit}>
-                <label>Location:</label>
-                <div>{(formik.errors.location) ? <p style={{ color: 'red' }}>{formik.errors.location}</p> : null}</div>
-                <input type="text" name="location" value={formik.values.location} onChange={formik.handleChange}></input>
-                <br />
                 <label>Dates:</label>
                 <div>{(formik.errors.start_date) ? <p style={{ color: 'red' }}>{formik.errors.start_date}</p> : null}</div>
                 <div>{(formik.errors.end_date) ? <p style={{ color: 'red' }}>{formik.errors.end_date}</p> : null}</div>

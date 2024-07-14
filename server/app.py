@@ -37,9 +37,9 @@ auth0_users = Users("dev-pq7dg4vajftv7igc.us.auth0.com")
 #Auth0
 
 def getCurrentUserId():
-    auth_header = request.headers.get('Authorization')
-    bearer_token = auth_header.split()[1]
-    auth0_userinfo = auth0_users.userinfo(bearer_token)
+    #auth_header = request.headers.get('Authorization')
+    #bearer_token = auth_header.split()[1]
+    #auth0_userinfo = auth0_users.userinfo(bearer_token)
 
     user = User.query.filter(User.sub == current_token.sub).first()
     return user.id
@@ -100,10 +100,12 @@ class UserByName(Resource):
 api.add_resource(UserByName, '/users/<name>')
 
 class Equipments(Resource):
+    @require_auth(None)
     def get(self):
-        equipment = [equipment.to_dict() for equipment in Equipment.query.all()]
+        equipment = [equipment.to_dict() for equipment in Equipment.query.filter(Equipment.user_id == getCurrentUserId()).all()]
         return  make_response(equipment, 200)
-
+    
+    @require_auth(None)
     def post(self):
         data = request.get_json()
         try:
@@ -111,8 +113,11 @@ class Equipments(Resource):
                 name = data['name'],
                 pictures = data['pictures'],
                 rent_price = data['rent_price'],
+                location = data['location'],
+                longitude = data['longitude'],
+                latitude = data['latitude'],
                 category_id = data['category_id'],
-                user_id = data['user_id'],
+                user_id = getCurrentUserId(),
             )    
             db.session.add(new_equipment)
             db.session.commit()
@@ -252,7 +257,6 @@ class Rentals(Resource):
         new_rental = Rental(
             user_id = getCurrentUserId(),
             equipment_id = data['equipment_id'],
-            location = data['location'],
             start_date = datetime.strptime(data['start_date'], '%Y-%m-%d'),
             end_date = datetime.strptime(data['end_date'], '%Y-%m-%d')
         )

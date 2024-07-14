@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import Modal from 'react-modal'
 import RentEquipment from './RentEquipment';
 import Review from './Review';
+import EquipmentPictures from './EquipmentPictures';
 import { Button } from 'antd';
 import {gray} from '@ant-design/colors';
 
@@ -50,15 +51,9 @@ const Equipment = () => {
         !equipment ? <></> :
         <div>
             <h2 style = {{textAlign:"center"}}>{equipment.name}</h2>
-            {/* {equipment.pictures.split('|').map((p, i) => {
-                    if (p.startsWith('http')) {
-                        return <img key={'equipment_pic_' + i} className='equipment_pic' src={p}></img>
-                    } else {
-                        return <img key={'equipment_pic_' + i} className='portfolio_pic' src={`data:image/jpeg;base64,${p}`}></img>
-
-                    }
-                })}         */}
-            <img className="equipment" src={equipment.pictures}></img> 
+            <div className="equipment_pic">
+                <EquipmentPictures pictures={equipment.pictures} />
+            </div>
             <h2 style = {{marginLeft: 20}}>Rent price : ${equipment.rent_price}.00</h2>
             {review}
             <br/>

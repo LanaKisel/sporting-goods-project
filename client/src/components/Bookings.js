@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 import { Button } from 'antd';
 import CancelRent from './CancelRent';
 import CreateReview from './CreateReview';
+import EquipmentPictures from './EquipmentPictures';
 
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import { useGetRentalsQuery } from "../services/sportingGoodsApi"
@@ -45,8 +46,8 @@ const Bookings = () => {
   }
   const booking = !!bookings && bookings.map(b => (
     <div key={b.id} className='row' style={{ border: 'dashed 1px black' }}>
-      <div className='column'>
-        <img className='bookingsPic' src={b.equipment.pictures}></img>
+      <div className='column equipment_pic' style={{ maxWidth: "30%" }}>
+        <EquipmentPictures pictures={b.equipment.pictures} />
       </div>
       <div className='column'>
         <h3 style={{ textAlign: "center", marginTop: '2em' }}>{b.equipment.name}</h3>

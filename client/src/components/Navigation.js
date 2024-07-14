@@ -25,6 +25,15 @@ const Navigation = () => {
                 Bookings
             </NavLink>
             <NavLink
+            to='/mylistings'
+            className = "nav-link"
+            isActive={(match, location) => {
+                return match;
+              }}
+            >
+                Listings
+            </NavLink>
+            <NavLink
             to='/terms&conditions'
             className = "nav-link"
             isActive ={(match, location) => {
