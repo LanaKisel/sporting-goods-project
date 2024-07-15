@@ -7,7 +7,7 @@ import { createRoot } from "react-dom/client";
 //Redux
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import {store} from './store'
+import { store } from './store'
 //Redux
 
 //Auth0
@@ -22,10 +22,10 @@ const root = createRoot(container);
 root.render(
     <Auth0Provider
         domain="dev-pq7dg4vajftv7igc.us.auth0.com"
-        clientId="ViYR4q53qmm1RAu1jviv1LdnESbsMuKR"
+        clientId="TE6MVyIwPhTXTcWKUjgqk3dtvP9CXTYo"
         authorizationParams={{
             redirect_uri: window.location.origin,
-            audience: "sporting-goods-python-flask"
+            audience: 'sprtnggdslk'
         }}
     >
         <Provider store={store}>
