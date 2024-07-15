@@ -56,13 +56,17 @@ const EqRented = () => {
           {!!rent && !!rent.equipment && <EquipmentPictures pictures={rent.equipment.pictures} />}
         </div>
         <div className='column'>
-          {!!rent && !!rent.name && <h3 style={{ textAlign: "center" }}>{rent.equipment.name}</h3>}
-          <h3 style={{ textAlign: "center", marginLeft: 40 }}>Location: {rent.equipment.location}</h3>
-          <h3 style={{ textAlign: "center", marginLeft: 40 }}>Dates: {rent.start_date} - {rent.end_date}</h3>
-          <div style={{ display: 'block', textAlign: 'center'}}>
-            <Button type='primary' style={{ marginRight: '1em' }} onClick={openUpdateModal}>Update Rental</Button>
-            <Button type='primary' style={{ marginLeft:'1em' }} onClick={openCancelModal}>Cancel Rental</Button>
-          </div>
+          {!!rent && !!rent.equipment &&
+            <>
+            <h3 style={{ textAlign: "center" }}>{rent.equipment.name}</h3>
+            <h3 style={{ textAlign: "center", marginLeft: 40 }}>Location: {rent.equipment.location}</h3>
+              <h3 style={{ textAlign: "center", marginLeft: 40 }}>Dates: {rent.start_date} - {rent.end_date}</h3>
+              <div style={{ display: 'block', textAlign: 'center' }}>
+                <Button type='primary' style={{ marginRight: '1em' }} onClick={openUpdateModal}>Update Rental</Button>
+                <Button type='primary' style={{ marginLeft: '1em' }} onClick={openCancelModal}>Cancel Rental</Button>
+              </div>
+            </>
+          }
         </div>
       </div>
       <Modal
