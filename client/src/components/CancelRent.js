@@ -16,7 +16,7 @@ const CancelRent = ({ rent_id }) => {
         else if (deleteRentalIsError) {
             history.go(0);
         }
-    }, [deleteRentalIsSuccess, deleteRentalIsError, deleteRentalResponse, history, rent.equipment_id])
+    }, [deleteRentalIsSuccess, deleteRentalIsError, deleteRentalResponse, history, rent])
 
     function handleDelete() {
         deleteRental(rent_id)
