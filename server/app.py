@@ -27,7 +27,7 @@ from datetime import datetime
 require_auth = ResourceProtector()
 validator = Auth0JWTBearerTokenValidator(
     "dev-pq7dg4vajftv7igc.us.auth0.com",
-    "sporting-goods-python-flask"
+    "sprtnggdslk"
 )
 require_auth.register_token_validator(validator)
 #Auth0
@@ -73,13 +73,13 @@ api.add_resource(Users, '/users')
 class CurrentUser(Resource):
     @require_auth(None)
     def get(self):
-        auth_header = request.headers.get('Authorization')
-        bearer_token = auth_header.split()[1]
-        auth0_userinfo = auth0_users.userinfo(bearer_token)
-
         user = User.query.filter(User.sub == current_token.sub).first()
         
         if user == None:
+            auth_header = request.headers.get('Authorization')
+            bearer_token = auth_header.split()[1]
+            auth0_userinfo = auth0_users.userinfo(bearer_token)
+            
             new_user = User(
                     sub = auth0_userinfo['sub'],
                     email = auth0_userinfo['email'],
