@@ -1,10 +1,11 @@
 // https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery#basic-usage
 import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react'
+import variables from '../Variables';
 
 export const sportingGoodsApi = createApi({
   // Set the baseUrl for every endpoint below
   baseQuery: retry(fetchBaseQuery({
-    baseUrl: '/',
+    baseUrl: variables.base_api_endpoint,
     //https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery#setting-default-headers-on-requests
     prepareHeaders: async (headers, { getState }) => {
       let accessToken = getState().user.value.token;
