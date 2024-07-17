@@ -37,7 +37,7 @@ const Navigation = () => {
             >
                 Home
             </NavLink>
-            {(!!currUser ? <div style={{ display: 'flex' }}>
+            {(!!currUser ? <div>
                 <NavLink
                     to='/mybookings'
                     className="nav-link"
