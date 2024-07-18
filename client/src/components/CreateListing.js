@@ -182,7 +182,7 @@ const CreateListing = () => {
 
                     <div>{(formik.errors.location) ? <p style={{ color: 'red' }}>{formik.errors.location}</p> : null}</div>
                     <br />
-                    <input type="submit"></input>
+                    <input type="submit" value='Create Listing'/>
                 </Form>
             </FormikProvider>
         </div>
