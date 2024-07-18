@@ -16,6 +16,8 @@ faker = "*"
 gunicorn = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
+authlib = "*"
+auth0-python = "*"
 
 [requires]
 python_full_version = "3.8.13"
