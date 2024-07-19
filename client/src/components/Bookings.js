@@ -21,7 +21,7 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 const Bookings = () => {
-  const { data: bookings } = useGetRentalsQuery() // this TRK query(api call) will limit results to the currently authenticated user
+  const { data: bookings, isUninitialized:queryNotStarted } = useGetRentalsQuery() // this TRK query(api call) will limit results to the currently authenticated user
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const [reviewModalIsOpen, setReviewModalIsOpen] = useState(false)

@@ -5,7 +5,8 @@ import UpdateRent from './UpdateRent';
 import CancelRent from './CancelRent';
 import EquipmentPictures from './EquipmentPictures';
 import { Button } from 'antd';
-
+import {useGetRentalByIdQuery} from "../services/sportingGoodsApi"
+import { skipToken } from '@reduxjs/toolkit/query/react'
 Modal.setAppElement('#root');
 const customStyles = {
   content: {
@@ -21,15 +22,8 @@ const customStyles = {
 
 const EqRented = () => {
   let { id } = useParams()
-  const [rent, setRent] = useState([])
-  useEffect(() => {
-    fetch(`/rentals/${id}`)
-      .then(r => r.json())
-      .then(data => (
-        setRent(data)
-      ))
-  }, [id])
-  // console.log(rent.equipment.name, rent.equipment)
+  const { data: rent } = useGetRentalByIdQuery(id ?? skipToken)
+ 
   const [updateModalIsOpen, setUpdateIsOpen] = React.useState(false);
   const [cancelModalIsOpen, setCancelIsOpen] = React.useState(false);
 
@@ -49,14 +43,14 @@ const EqRented = () => {
   }
 
   return (
-    <div>
+    !!rent && <div>
       <h2 style={{ textAlign: 'center' }}>Here're the details of your rental:</h2>
       <div className='row'>
         <div className='column equipment_pic'>
-          {!!rent && !!rent.equipment && <EquipmentPictures pictures={rent.equipment.pictures} />}
+          {!!rent.equipment && <EquipmentPictures pictures={rent.equipment.pictures} />}
         </div>
         <div className='column'>
-          {!!rent && !!rent.equipment &&
+          {!!rent.equipment &&
             <>
             <h3 style={{ textAlign: "center" }}>{rent.equipment.name}</h3>
             <h3 style={{ textAlign: "center", marginLeft: 40 }}>Location: {rent.equipment.location}</h3>
