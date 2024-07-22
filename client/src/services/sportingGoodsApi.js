@@ -110,7 +110,7 @@ export const sportingGoodsApi = createApi({
       providesTags: ['Rental']
     }),
     updateRental: builder.mutation({
-      query: (rental_id, body) => ({
+      query: ({rental_id, body}) => ({
         url: `/rentals/${rental_id}`,
         method: 'PATCH',
         body: body,

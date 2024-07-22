@@ -8,7 +8,6 @@ import { Image, Upload, Spin } from 'antd';
 import { FormikProvider } from 'formik';
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import LocationSearchInput from "./LocationSearchInput"
-
 import { useUpdateEquipmentMutation, useGetCategoriesQuery, useGetEquipmentByIdQuery } from "../services/sportingGoodsApi"
 
 const getBase64 = (file) =>
