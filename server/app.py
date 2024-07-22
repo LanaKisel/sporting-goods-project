@@ -273,14 +273,16 @@ class Rentals(Resource):
         return {'error': 'validation error'}  
 api.add_resource(Rentals, '/rentals')      
 class RentalById(Resource):
+    @require_auth(None)
     def get(self, id):
-        rental = Rental.query.filter(Rental.id==id).first()
+        rental = Rental.query.filter(Rental.id==id and Rental.user_id == getCurrentUserId()).first()
         if rental:
             return make_response(rental.to_dict(), 200)
         return {'error':'validation error'}, 400
+    @require_auth(None)
     def patch(self, id):
         data = request.get_json()
-        rental = Rental.query.filter(Rental.id==id).first()
+        rental = Rental.query.filter(Rental.id==id and Rental.user_id == getCurrentUserId()).first()
         if rental:
             for attr in data:
                 try:
