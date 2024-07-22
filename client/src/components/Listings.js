@@ -4,6 +4,7 @@ import { Button, Spin } from 'antd';
 import EquipmentPictures from './EquipmentPictures';
 import CreateListing from './CreateListing';
 import UpdateListing from './UpdateListing';
+import CancelListing from './CancelListing';
 import variables from "../Variables"
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { useGetEquipmentsQuery, useGetCategoriesQuery } from "../services/sportingGoodsApi"
@@ -36,6 +37,7 @@ const Listings = () => {
 
   const [createListingModalIsOpen, setCreateListingModalIsOpen] = useState(false)
   const [updateListingModalIsOpen, setUpdateListingModalIsOpen] = useState(false);
+  const [cancelListingModalIsOpen, setCancelListingModalIsOpen] = useState(false)
   const [selectedEquipmentId, setSelectedEquipmentId] = useState(undefined)
 
   function toggleCreateListingModal() {
@@ -47,6 +49,13 @@ const Listings = () => {
   }
   function closeUpdateListingModal() {
     setUpdateListingModalIsOpen(false);
+  }
+  function openCancelListingModal(id) {
+    setSelectedEquipmentId(id);
+    setCancelListingModalIsOpen(true)
+  }
+  function closeCancelListingModal(){
+    setCancelListingModalIsOpen(false)
   }
 
 
@@ -79,8 +88,9 @@ const Listings = () => {
         }
         <h3 style={{ textAlign: "center", marginTop: '2em' }}>{!!categories && categories.filter(c => c.id === e.category_id)[0].category_name}</h3>
         <h3 style={{ textAlign: "center", marginTop: '2em' }}>{e.location}</h3>
-        <div style={{ display: 'block', textAlign: 'center' }}>
+        <div style={{ display: 'block', textAlign:'center' }}>
           <Button type='primary' style={{ marginLeft: 'auto', marginRight: 'auto', display: 'block' }} onClick={() => { openUpdateListingModal(e.id) }}>Update Listing</Button>
+          <Button type='primary' style={{ marginTop:'2em',marginLeft:'auto', marginRight: 'auto', display: 'block' }} onClick={() => { openCancelListingModal(e.id) }}>Cancel Listing</Button>
         </div>
       </div>
     </div>
@@ -110,6 +120,13 @@ const Listings = () => {
         style={customStyles}
         contentLabel='Update listing'>
         {!!selectedEquipmentId && <UpdateListing equipment_id={selectedEquipmentId} />}
+      </Modal>
+      <Modal
+        isOpen={cancelListingModalIsOpen}
+        onRequestClose={closeCancelListingModal}
+        style={customStyles}
+        contentLabel='Cancel listing'>
+        {!!selectedEquipmentId && <CancelListing equipment_id={selectedEquipmentId} />}
       </Modal>
     </>
   )
