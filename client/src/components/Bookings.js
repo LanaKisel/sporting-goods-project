@@ -4,9 +4,8 @@ import { Button } from 'antd';
 import CancelRent from './CancelRent';
 import CreateReview from './CreateReview';
 import EquipmentPictures from './EquipmentPictures';
-
 import { useGetRentalsQuery } from "../services/sportingGoodsApi"
-
+import { Spin } from 'antd';
 const customStyles = {
   content: {
     overflow: 'visible',
@@ -21,7 +20,7 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 const Bookings = () => {
-  const { data: bookings, isUninitialized:queryNotStarted } = useGetRentalsQuery() // this TRK query(api call) will limit results to the currently authenticated user
+  const { data: bookings, isUninitialized:queryNotStarted, isFetching:fetchingEquipments } = useGetRentalsQuery() // this TRK query(api call) will limit results to the currently authenticated user
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const [reviewModalIsOpen, setReviewModalIsOpen] = useState(false)
@@ -64,6 +63,10 @@ const Bookings = () => {
   return (
     <div>
       <h2 className='h2Bookings'>Details of your bookings:</h2>
+      {(bookings && bookings.length > 0 ?
+                booking
+                :
+                (fetchingEquipments || queryNotStarted ? <Spin fullscreen /> : <h3 style={{ textAlign: "center" }}>You have no bookings.</h3>))}
       {booking}
       <Modal
         isOpen={modalIsOpen}

@@ -15,7 +15,7 @@ const CreateReview = ({ equipment_id }) => {
     const formSchema = Yup.object().shape({
         text: Yup
             .string()
-            .max(250, ''),
+            .max(500, 'Only 500 characters allowed.'),
         photos: Yup
             .string()
             .matches(URL, 'Enter a valid url'), //https://stackoverflow.com/a/65810131
