@@ -52,9 +52,6 @@ const Home = () => {
     return (
         <div>
             <Header />
-            {/* <img className="homepage_photo" src={"https://img.freepik.com/free-photo/sports-tools_53876-138077.jpg?w=900&t=st=1719098303~exp=1719098903~hmac=5a6af19bfcc72113264d23e928921278b00ef10189549f728ac13f581b7a2b33"} alt={"Sport equipment"} />
-            <h2 className='homepage_h2'>Ready to have some fun?</h2>
-            <h3 className='homepage_h3'>Check out sport equipment that's available to rent</h3> */}
             <br />
             <h3 className='cat_h3'>Categories:</h3>
             <div className='categoryContainer'>

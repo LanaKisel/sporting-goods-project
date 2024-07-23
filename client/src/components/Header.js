@@ -11,9 +11,6 @@ const Header = () => {
                             <div className='text-white'>
                                 <h1 className='mb-3'>Ready to have some fun?</h1>
                                 <h4 className='mb-3'>Check out sport equipment that's available for rent</h4>
-                                {/* <MDBBtn tag="a" outline size="lg">
-                                    Call to action
-                                </MDBBtn> */}
                             </div>
                         </div>
                     </div>
