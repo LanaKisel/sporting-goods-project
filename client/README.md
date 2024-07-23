@@ -33,6 +33,10 @@ Redux toolkit: global state, api query
 Flask: Micro web framework for Python.
 SQLAlchemy: SQL toolkit and Object-Relational Mapping (ORM) for Python.
 
+## Models and relationships
+
+![Image of Models and Relationships](/models_relationships.png)
+
 ## Deployment
 
 Deployed on Render
