@@ -1,70 +1,90 @@
-# Getting Started with Create React App
+# Sporting Goods React-Flask Project
+Welcome to the Sporting Goods project! This application combines React on the front end with Flask on the backend to create a platform where users can manage sporting equipment listings, rent equipment, and interact with Google Maps for location-related functionalities.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Features
+### User Authentication with Auth0: 
+Secure user login and authentication using Auth0.
+### Google Maps API Integration:
+Autocomplete for location input fields.
+Displaying user listings and rental locations on a map.
 
-## Available Scripts
+### Listing Management:
+View existing listings
+Create new listings for sporting equipment.
+Update existing listings.
+Cancel listings when necessary.
 
-In the project directory, you can run:
+### Rental Management:
+Rent sporting equipment.
+Update rental details.
+Cancel rentals as needed.
+View existing rentals
 
-### `npm start`
+## Frontend:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+React: JavaScript library for building user interfaces.
+Auth0: Authentication and authorization platform.
+Google Maps API: For location autocomplete and map display.
+Antd: styling application
+Redux toolkit: global state, api query
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Backend:
 
-### `npm test`
+Flask: Micro web framework for Python.
+SQLAlchemy: SQL toolkit and Object-Relational Mapping (ORM) for Python.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Deployment
 
-### `npm run build`
+Deployed on Render
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+To run this project locally, follow these steps:
+Clone the repository:
+git clone https://github.com/LanaKisel/sporting-goods-project
+cd repository-folder
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Set up Auth0:
 
-### `npm run eject`
+Create a free account on Auth0 (if you haven't already).
+Set up a new application and configure it to use Auth0 for authentication.
+Note down the Client ID and Domain.
+Configure Environment Variables:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Create a .env file in the root directory.
+Add the following variables:
+makefile
+Copy code
+REACT_APP_AUTH0_DOMAIN=your-auth0-domain
+REACT_APP_AUTH0_CLIENT_ID=your-auth0-client-id
+REACT_APP_API_BASE_URL=http://localhost:5000/api  # Adjust if Flask runs on a different port
+Install Dependencies:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Run application locally 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### For the frontend (React):
+cd client
+npm install
+npm start
+### For the backend (Flask):
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+pip install -r requirements.txt
+pipenv shell
+cd server
+python app.py
 
-## Learn More
+Open your browser and go to http://localhost:3000 to view the Sporting Goods application.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Resources
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Ant design: https://ant.design
 
-### Code Splitting
+GoogleMaps API: https://console.cloud.google.com/google/maps-apis/home?project=sporting-goods-430303
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Auth0 website: https://auth0.com/?utm_content=usbranded-auth0-auth0homepage&utm_source=google&utm_campaign=amer_namer_usa_all_ciam-all_dg-ao_auth0_search_google_text_kw_Brand_utm2&utm_medium=cpc&utm_id=aNK4z000000UEiRGAW&gad_source=1&gclid=CjwKCAjwqf20BhBwEiwAt7dtdbGhksbwmOaZryMtFZ7NbKZx3XPNA5rXOHab1pmqRRG6uucoRxQKahoCahkQAvD_BwE
 
-### Analyzing the Bundle Size
+Auth0 QuickStart: https://manage.auth0.com/dashboard/us/dev-pq7dg4vajftv7igc/applications/TE6MVyIwPhTXTcWKUjgqk3dtvP9CXTYo/quickstart/react
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Flask API QuickStart: https://auth0.com/docs/quickstart/backend/python/interactive 
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Redux Toolkit: https://redux-toolkit.js.org
