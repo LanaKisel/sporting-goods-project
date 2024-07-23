@@ -11,18 +11,16 @@ from config import db
 class User(db.Model, SerializerMixin):
     __tablename__='users'
 
-    serialize_rules = ('-rentals.user',)
+    serialize_rules = ('-rentals.user','-reviews.user')
 
     id = db.Column(db.Integer, primary_key=True )
     sub = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String, nullable=False)
     name= db.Column(db.String, nullable=False)
-    # is_owner=db.Column(db.Boolean)
 
     #relationship
     rentals= db.relationship('Rental', back_populates = 'user', cascade = 'all, delete-orphan')
     equipments = association_proxy('rentals', 'equipment', creator = lambda equipment_obj: Rental(equipment = equipment_obj) )
-    
     def __repr__(self):
         return f'<User {self.id}: {self.name}, {self.is_owner}>'
     
@@ -35,7 +33,7 @@ class User(db.Model, SerializerMixin):
 class Equipment(db.Model, SerializerMixin):
     __tablename__='equipments'
 
-    serialize_rules = ('-rentals.equipment',)
+    serialize_rules = ('-rentals.equipment', '-reviews.equipment')
 
     id = db.Column(db.Integer, primary_key=True)
     name= db.Column(db.String)
@@ -64,13 +62,14 @@ class Category(db.Model, SerializerMixin):
 
 class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
-    serialize_rules=('-user.reviews', '-user.email', '-user.rentals')
+    serialize_rules=('-user.reviews', '-user.email', '-user.rentals', '-equipment.reviews')
     id = db.Column(db.Integer, primary_key= True)
     text = db.Column(db.String, nullable=False)
     photos = db.Column(db.String, nullable = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable= False)
     equipment_id= db.Column(db.Integer, db.ForeignKey('equipments.id'))
-    user = db.relationship('User')
+    #relationships
+    user = db.relationship('User',)
     def __repr__(self):
         return f'<Review {self.id}: {self.text}>'
 
