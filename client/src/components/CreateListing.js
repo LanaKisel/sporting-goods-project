@@ -10,6 +10,7 @@ import LocationSearchInput from "./LocationSearchInput"
 
 import { useCreateEquipmentMutation, useGetCategoriesQuery } from "../services/sportingGoodsApi"
 
+    //https://ant.design/components/upload
 const getBase64 = (file) =>
     new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -124,6 +125,7 @@ const CreateListing = () => {
     }
 
     const handleAddressSelect = (place) => {
+        console.log(place)
 
                 formik.setFieldValue('latitude', place.geometry.location.lat())
                 formik.setFieldValue('longitude', place.geometry.location.lng())

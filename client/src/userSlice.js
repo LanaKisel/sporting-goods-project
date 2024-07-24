@@ -1,3 +1,4 @@
+// stores authentication token from Auth0
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
