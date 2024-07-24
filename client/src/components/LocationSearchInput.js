@@ -10,14 +10,14 @@ const LocationSearchInput = ({ address, onAddressSelect, onChange }) => {
         libraries: variables.maps_libraries
     })
 
-    const [searchResult, setSearchResult] = useState(undefined);
+    const [autocompleteInstance, setAutocompleteInstance] = useState(undefined);
     const handleOnPlaceChanged = () => {
-        onAddressSelect(searchResult.getPlace())
+        onAddressSelect(autocompleteInstance.getPlace())
     };
 
     return (
         isLoaded ? <Autocomplete
-            onLoad={(autocomplete) => setSearchResult(autocomplete)}
+            onLoad={(autocomplete) => setAutocompleteInstance(autocomplete)}
             onPlaceChanged={handleOnPlaceChanged}
             fields={['geometry.location', 'formatted_address']}
         >
